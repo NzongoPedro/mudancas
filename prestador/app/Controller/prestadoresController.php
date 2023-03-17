@@ -13,6 +13,13 @@ class prestadoresController
         return Prestador::getTypeOfPrestadores();
     }
 
+    /* GET ALL DATA */
+
+    public static function getAll($id_prestador)
+    {
+        return Prestador::getAllData($id_prestador);
+    }
+
     /* STORE */
 
     public static function  store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)

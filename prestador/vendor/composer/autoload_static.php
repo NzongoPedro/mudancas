@@ -21,6 +21,11 @@ class ComposerStaticInit1ae64fa52518553daab6adf7c5ffc153
     );
 
     public static $classMap = array (
+        'App\\Controller\\enderecosController' => __DIR__ . '/../..' . '/app/Controller/enderecosController.php',
+        'App\\Controller\\prestadoresController' => __DIR__ . '/../..' . '/app/Controller/prestadoresController.php',
+        'App\\Model\\Conexao' => __DIR__ . '/../..' . '/app/Model/Conexao.php',
+        'App\\Model\\enderecos' => __DIR__ . '/../..' . '/app/Model/enderecos.php',
+        'App\\Model\\prestadores' => __DIR__ . '/../..' . '/app/Model/prestadores.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 

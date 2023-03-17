@@ -2,6 +2,10 @@
 
 require_once '../config.php';
 
+if (isset($_SESSION['id-prestador'])) {
+  header('location: ' . ROUTE . 'views/profile.php');
+}
+
 require '../vendor/autoload.php';
 
 use App\Controller\prestadoresController as presta;
@@ -9,7 +13,6 @@ use App\Controller\enderecosController as endereco;
 
 $tipo_prestador = presta::getTypePrestadores();
 $endereco_prestador = endereco::getAllAdress();
-
 
 ?>
 <!DOCTYPE html>
