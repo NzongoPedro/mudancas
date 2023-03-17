@@ -68,6 +68,21 @@ class prestadores
         return $dataRow;
     }
 
+    /* Get All data by id of prestador */
+
+    public static function getAllData($id_prestador)
+    {
+        /* MAKE OR JOIN FORIGN KEY TO ANOTHER TABLES */
+        $get  = self::getInstance()->query("SELECT *FROM prestador AS P
+        INNER JOIN tipo_prestador AS TP ON P.id_tipo_orestador = TP.idtipo_prestador
+        INNER JOIN enderecos_prestador AS EP ON P.id_endereco = EP.idenderecos_prestador 
+        ");
+
+        $rows = $get->fetch();
+
+        return $rows;
+    }
+
     /* STORE */
 
     public static function storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)
@@ -102,13 +117,13 @@ class prestadores
     {
 
         $selectEmail = self::getInstance()->query("SELECT prestador_email FROM prestador WHERE prestador_email = '" . $email . "'");
-
         if ($selectEmail->rowCount() > 0) {
             $selectPassord = self::getInstance()->query("SELECT prestador_senha FROM prestador WHERE prestador_senha = '" . $password . "'");
             if ($selectPassord->rowCount() > 0) {
                 $data = self::getInstance()->query("SELECT *FROM prestador WHERE prestador_email = '$email' AND prestador_senha = '$password'");
                 if ($data->rowCount() > 0) {
-                    $_SESSION['telefone-prestador'] = $data->fetch()->idprestador;
+                    session_start();
+                    $_SESSION['id-prestador'] = $data->fetch()->idprestador;
 
                     return ['status' => 'sucesso', 'msg' => 'Acesso garantido'];
                 } else {

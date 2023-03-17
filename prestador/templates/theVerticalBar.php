@@ -15,7 +15,7 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link " href="<?= ROUTE ?>views/profile.php">
+          <a class="nav-link " href="<?= ROUTE ?>views/servicos.php">
               <i class="ni ni-delivery-fast text-warning"></i> Serviços
           </a>
       </li>
@@ -39,7 +39,7 @@
               <i class="ni ni-bullet-list-67 text-red"></i> Tables
           </a>
       </li>
-      <li class="nav-item">
+      <!--  <li class="nav-item">
           <a class="nav-link" href="<?= ROUTE ?>views/login.php">
               <i class="ni ni-key-25 text-info"></i> Login
           </a>
@@ -48,5 +48,5 @@
           <a class="nav-link" href="<?= ROUTE ?>views/register.php">
               <i class="ni ni-circle-08 text-pink"></i> Register
           </a>
-      </li>
+      </li> -->
   </ul>

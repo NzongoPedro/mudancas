@@ -17,7 +17,7 @@
                       <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg">
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
-                      <span class="mb-0 text-sm  font-weight-bold">Nome Prestador</span>
+                      <span class="mb-0 text-sm  font-weight-bold"><?= $prestador->prestador_nome ?></span>
                   </div>
               </div>
           </a>
@@ -29,7 +29,7 @@
                   <i class="ni ni-single-02"></i>
                   <span>Perfil</span>
               </a>
-              <a href="../examples/profile.html" class="dropdown-item">
+              <a href="<?= ROUTE ?>views/profile.php" class="dropdown-item">
                   <i class="ni ni-settings-gear-65"></i>
                   <span>Configurações</span>
               </a>

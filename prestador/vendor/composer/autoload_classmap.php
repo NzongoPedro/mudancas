@@ -6,5 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Controller\\enderecosController' => $baseDir . '/app/Controller/enderecosController.php',
+    'App\\Controller\\prestadoresController' => $baseDir . '/app/Controller/prestadoresController.php',
+    'App\\Model\\Conexao' => $baseDir . '/app/Model/Conexao.php',
+    'App\\Model\\enderecos' => $baseDir . '/app/Model/enderecos.php',
+    'App\\Model\\prestadores' => $baseDir . '/app/Model/prestadores.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );
