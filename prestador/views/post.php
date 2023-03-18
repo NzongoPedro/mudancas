@@ -20,6 +20,27 @@ require_once '../checkLogin.php';
     <link href="../assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link href="../assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+    <style>
+        .form-upload {
+            background: #333;
+            display: block;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center
+        }
+
+        .input-personalizado {
+            cursor: pointer;
+        }
+
+        .imagem {
+            max-width: 100%;
+        }
+
+        .input-file {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="">
@@ -69,6 +90,13 @@ require_once '../checkLogin.php';
                 <div class="col">
                     <div class="card bg-default shadow">
                         <div class="card-header bg-transparent border-0">
+                            <div class="float-right ">
+                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                    <button type="button" class="btn bg-none bg-transparent text-white" data-toggle="modal" data-target="#modalNewPost">
+                                        <i class="ni ni-fat-add"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <h3 class="text-white mb-0">Publicações antigas</h3>
                         </div>
                         <div class="table-responsive">
@@ -414,6 +442,52 @@ require_once '../checkLogin.php';
     <script src="../assets/js/plugins/jquery/dist/jquery.min.js"></script>
     <script src="../assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!--   Optional JS   -->
+    <script>
+        /* // Store prestadores */
+
+        var url = location.href; //pega endereço que esta no navegador
+        url = url.split("/"); //quebra o endeço de acordo com a / (barra)
+
+        let urll = `http://${url[2]}/mudancas/prestador/requestAjax.php`
+
+        const store = async () => {
+            form = document.querySelector('.form-post')
+            form.addEventListener('submit', (e, payload) => {
+                e.preventDefault();
+                payload = new FormData(form)
+
+                payload.append('acao', 'post')
+
+                resposta = document.querySelector('.responseText')
+
+                /* ADD AJAX FOR HTTP REQUEST ASYNC */
+                fetch(urll, {
+                        method: 'POST',
+                        body: payload
+                    })
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.status == 'sucesso') {
+                            resposta.innerHTML =
+                                `<div class="alert alert-success">
+                    ${response.msg}
+                </div>`
+
+                        } else {
+                            resposta.innerHTML =
+                                `<div class = "alert alert-danger">
+                  ${response.msg}
+                    </div>`
+                        }
+                    })
+                    .catch(e => {
+                        resposta.innerHTML = e
+                    })
+            })
+        }
+
+        store()
+    </script>
     <!--   Argon JS   -->
     <script src="../assets/js/argon-dashboard.min.js?v=1.1.2"></script>
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
@@ -423,6 +497,12 @@ require_once '../checkLogin.php';
                 token: "ee6fab19c5a04ac1a32a645abde4613a",
                 application: "argon-dashboard-free"
             });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#modalNewPost').modal('show')
+        })
     </script>
 </body>
 
