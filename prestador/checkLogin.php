@@ -1,7 +1,7 @@
 <?php
 
 if (!isset($_SESSION['id-prestador'])) {
-    header('location: ' . ROUTE . 'login.php');
+    header('location: ' . ROUTE . '/views/login.php');
 }
 
 $id_prestador = $_SESSION['id-prestador'];
