@@ -5,7 +5,7 @@ require_once './vendor/autoload.php';
 
 
 use App\Controller\prestadoresController as prestar;
-
+use App\Controller\servicosController as servicos;
 
 
 if (isset($_POST['acao'])) {
@@ -15,7 +15,6 @@ if (isset($_POST['acao'])) {
     switch ($acao) {
 
         case 'store':
-
 
             $nome_prestador = filter_input(INPUT_POST, 'nome-prestador');
             $email_prestador = filter_input(INPUT_POST, 'email-prestador', FILTER_SANITIZE_EMAIL);
@@ -34,6 +33,16 @@ if (isset($_POST['acao'])) {
             $senha_prestador = md5(filter_input(INPUT_POST, 'senha-prestador'));
 
             echo json_encode(prestar::login($email_prestador, $senha_prestador));
+            break;
+
+        case 'store-servico':
+
+            $designacao = addslashes(htmlspecialchars(filter_input(INPUT_POST, 'nome-servico')));
+            $descricao = nl2br(addslashes(htmlspecialchars(filter_input(INPUT_POST, 'descricao-servico'))));
+            $id_prestador = nl2br(addslashes(htmlspecialchars(filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT))));
+
+            echo json_encode(servicos::store($designacao, $descricao, $id_prestador));
+
             break;
 
         default:

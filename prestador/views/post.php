@@ -442,6 +442,17 @@ require_once '../checkLogin.php';
     <script src="../assets/js/plugins/jquery/dist/jquery.min.js"></script>
     <script src="../assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!--   Optional JS   -->
+    <!--   Argon JS   -->
+    <script src="../assets/js/argon-dashboard.min.js?v=1.1.2"></script>
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script>
+        window.TrackJS &&
+            TrackJS.install({
+                token: "ee6fab19c5a04ac1a32a645abde4613a",
+                application: "argon-dashboard-free"
+            });
+    </script>
+
     <script>
         /* // Store prestadores */
 
@@ -470,14 +481,17 @@ require_once '../checkLogin.php';
                         if (response.status == 'sucesso') {
                             resposta.innerHTML =
                                 `<div class="alert alert-success">
-                    ${response.msg}
-                </div>`
-
+                                    ${response.msg}
+                                </div>`
+                            form.reset
+                            setTimeout(() => {
+                                location.href = "./profile.php"
+                            }, 1500);
                         } else {
                             resposta.innerHTML =
                                 `<div class = "alert alert-danger">
-                  ${response.msg}
-                    </div>`
+                            ${response.msg}
+                                </div>`
                         }
                     })
                     .catch(e => {
@@ -487,22 +501,6 @@ require_once '../checkLogin.php';
         }
 
         store()
-    </script>
-    <!--   Argon JS   -->
-    <script src="../assets/js/argon-dashboard.min.js?v=1.1.2"></script>
-    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
-    <script>
-        window.TrackJS &&
-            TrackJS.install({
-                token: "ee6fab19c5a04ac1a32a645abde4613a",
-                application: "argon-dashboard-free"
-            });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#modalNewPost').modal('show')
-        })
     </script>
 </body>
 

@@ -1,6 +1,10 @@
 <?php
 require_once '../config.php';
 require_once '../checkLogin.php';
+
+use App\Controller\servicosController as Servico;
+
+$servicos = Servico::mostraServico($id_prestador);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -66,18 +70,56 @@ require_once '../checkLogin.php';
             <!-- Dark table -->
             <div class="row mt-5">
                 <div class="col">
-                    <div class="card bg-default shadow">
-                        <div class="card-header bg-transparent border-0">
-                            <div class="float-right text-right">
-                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                    <i class="fas fa-plus"></i>
+                    <div class="card bg-default shadow p-3">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="container">
+                                    <div class="card mb-0">
+                                        <div class="card-body">
+                                            <?php
+                                            // Exibe a controller de servicos
+                                            foreach ($servicos as $servico) : ?>
+                                                <div class="card-title">
+                                                    <div class="text-right">
+                                                        <a class="btn btn-sm text-danger">
+                                                            <span>
+                                                                eliminar
+                                                                <i class="ni ni-fat-delete"></i>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <h3><?= $servico->servico_designacao ?></h3>
+                                                </div>
+                                                <div class="card-text mb-2">
+                                                    <?= $servico->servico_descricao ?>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <h3 class="text-white mb-0">Meus serviços</h3>
-                        </div>
-                        <div class="row">
-
-
+                            <div class="col-5">
+                                <div class="container">
+                                    <div class="card shadow-sm b-2 bg-transparent">
+                                        <h3 class="text-light mb-3 text-right mr-2">Adicionar Serviços</h3>
+                                        <form action="" class="form-servico">
+                                            <div class="form-group mb-3">
+                                                <input type="text" name="nome-servico" class="form-control bg-transparent color-white rounded-0" placeholder="Escreva o nome do serviço">
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea class="form-control bg-transparent rounded-0" name="descricao-servico" rows="3" placeholder="Escreva uma descrição para este serviço..."></textarea>
+                                            </div>
+                                            <div class="responseText"></div>
+                                            <div class="mt-2">
+                                                <button type="submit" class="btn rounded-0 btn-primary btn-block btn-lg">
+                                                    Adicionar
+                                                </button>
+                                            </div>
+                                            <input type="hidden" name="id-prestador" value="<?= $prestador->idprestador ?>">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,6 +158,48 @@ require_once '../checkLogin.php';
     <script src="../assets/js/plugins/jquery/dist/jquery.min.js"></script>
     <script src="../assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!--   Optional JS   -->
+    <script>
+        /* // Store prestadores */
+
+        var url = location.href; //pega endereço que esta no navegador
+        url = url.split("/"); //quebra o endeço de acordo com a / (barra)
+
+        let urll = `http://${url[2]}/mudancas/prestador/requestAjax.php`
+
+        const store = async () => {
+            form = document.querySelector('.form-servico')
+            form.addEventListener('submit', (e, payload) => {
+                e.preventDefault();
+                payload = new FormData(form)
+
+                payload.append('acao', 'store-servico')
+
+                resposta = document.querySelector('.responseText')
+
+                /* ADD AJAX FOR HTTP REQUEST ASYNC */
+                fetch(urll, {
+                        method: 'POST',
+                        body: payload
+                    })
+                    .then(res => res.json())
+                    .then(response => {
+                        if (response.status == 'sucesso') {
+                            resposta.innerHTML = `<div class="alert alert-success" role="alert"> ${response.msg}</div>`
+                            setTimeout(() => {
+                                location.reload()
+                            }, 2500);
+                        } else {
+                            resposta.innerHTML = `<div class = "alert alert-danger"> ${response.msg}</div>`
+                        }
+                    })
+                    .catch(e => {
+                        resposta.innerHTML = e
+                    })
+            })
+        }
+
+        store()
+    </script>
     <!--   Argon JS   -->
     <script src="../assets/js/argon-dashboard.min.js?v=1.1.2"></script>
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
