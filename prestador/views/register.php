@@ -288,7 +288,9 @@ $endereco_prestador = endereco::getAllAdress();
                 `<div class="alert alert-success" role="alert">
                     ${response.msg}
                 </div>`
-
+              setTimeout(() => {
+                location.href = "./profile.php"
+              }, 1500);
             } else {
               resposta.innerHTML =
                 `<div class = "alert alert-danger" role = "alert" >

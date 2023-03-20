@@ -76,6 +76,7 @@ class prestadores
         $get  = self::getInstance()->query("SELECT *FROM prestador AS P
         INNER JOIN tipo_prestador AS TP ON P.id_tipo_orestador = TP.idtipo_prestador
         INNER JOIN enderecos_prestador AS EP ON P.id_endereco = EP.idenderecos_prestador 
+        WHERE P.idprestador = '$id_prestador'
         ");
 
         $rows = $get->fetch();
