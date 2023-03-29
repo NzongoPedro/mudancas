@@ -92,6 +92,17 @@ class prestadores
         return $rows;
     }
 
+    public static function getget()
+    {
+        $get  = self::getInstance()->query("SELECT *FROM prestador AS P
+        INNER JOIN tipo_prestador AS TP ON P.id_tipo_orestador = TP.idtipo_prestador
+        ");
+
+        $rows = $get->fetchAll();
+
+        return $rows;
+    }
+
     /* STORE */
 
     public static function storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)

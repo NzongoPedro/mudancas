@@ -1,13 +1,11 @@
 <?php
 
-
 require_once './vendor/autoload.php';
-
 
 use App\Controller\prestadoresController as prestar;
 use App\Controller\servicosController as servicos;
 use App\Controller\publicacoesController as publicar;
-
+use App\Model\counter as contar;
 
 if (isset($_POST['acao'])) {
 
@@ -80,7 +78,6 @@ if (isset($_POST['acao'])) {
             break;
 
         case 'eliminarPost':
-
             $idpublicacao = filter_input(INPUT_POST, 'idpublicacao', FILTER_SANITIZE_NUMBER_INT);
             echo json_encode(publicar::eliminarPublicacao($idpublicacao));
             break;
@@ -89,6 +86,10 @@ if (isset($_POST['acao'])) {
             $id_prestador = filter_input(INPUT_POST, 'id-prestrador', FILTER_SANITIZE_NUMBER_INT);
             $foto = $_FILES['foto-prestador'];
             echo json_encode(prestar::addFoto($foto, $id_prestador));
+            break;
+
+        case 'counter':
+            echo json_encode(contar::counters());
             break;
 
         default:

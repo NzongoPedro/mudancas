@@ -20,6 +20,12 @@ class prestadoresController
         return Prestador::getAllData($id_prestador);
     }
 
+    public static function get()
+    {
+        return Prestador::getget();
+    }
+
+
     /* STORE */
 
     public static function  store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)
@@ -35,7 +41,8 @@ class prestadoresController
     }
 
     /*ADD FOTO */
-    public static function addFoto($foto, $id_prestador){
+    public static function addFoto($foto, $id_prestador)
+    {
         return Prestador::addFoto($foto, $id_prestador);
     }
 

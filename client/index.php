@@ -1,4 +1,11 @@
-<?php require './config.php'; ?>
+<?php
+require './config.php';
+require '../prestador/vendor/autoload.php';
+
+use App\Controller\prestadoresController as prestatador;
+
+$prestador = prestatador::get();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -78,7 +85,6 @@
     <section class="hero-1 mt-5" id="servicos">
         <div class="container">
             <div class="row">
-
                 <div class="col-12">
                     <div class="row">
                         <div class="col-5"> <!-- Coluna da esquerda -->
@@ -165,55 +171,27 @@
         <div class="container">
             <h5 class="mb-5 mt-5 text-center text-uppercase">Prestadores</h5>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card border-0 shadow-sm rounded-0 h-100" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="<?= ROUTE ?>storage/image/other/news1.jpg" class="card-img-top rounded-0 foto-prestador" alt="...">
-                        <div class="card-body border-0">
-                            <div class="card-title">
-                                <h5 class="text-uppercase">
-                                    <a href="./prestador-info.php?id-prestador=0">Nome Prestador</a>
-                                </h5>
-                            </div>
-                            <div>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, eligendi temporibus odio reiciendis ipsam expedita quod assumenda accusamus nihil maiores aspernatur dignissimos dolore consequuntur nulla quo! Consequuntur odit neque minima.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 shadow-sm rounded-0 h-100" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="<?= ROUTE ?>storage/image/other/news3.jpg" class="card-img-top rounded-0 foto-prestador" alt="...">
-                        <div class="card-body border-0">
-                            <div class="card-title">
-                                <h5 class="text-uppercase">
-                                    <a href="./prestador-info.php?id-prestador=0">Nome Prestador</a>
-                                </h5>
-                            </div>
-                            <div>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, eligendi temporibus odio reiciendis ipsam expedita quod assumenda accusamus nihil maiores aspernatur dignissimos dolore consequuntur nulla quo! Consequuntur odit neque minima.
+                <?php
+                foreach ($prestador as $key) { ?>
+                    <div class="col">
+                        <div class="card border-0 shadow-sm rounded-0 h-100" data-aos="fade-up" data-aos-duration="1000">
+                            <img src="../prestador/assets/img/prestador/<?= $key->prestador_foto ?>" class="card-img-top rounded-0 foto-prestador" alt="...">
+                            <div class="card-body border-0">
+                                <div class="card-title">
+                                    <h5 class="text-black">
+                                        <a href="./prestador-info.php?id-prestador=<?= $key->idprestador ?>" class="text-black"><?= $key->prestador_nome ?></a>
+                                    </h5>
+                                </div>
+                                <div>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, eligendi temporibus odio reiciendis ipsam expedita quod assumenda accusamus nihil maiores aspernatur dignissimos dolore consequuntur nulla quo! Consequuntur odit neque minima.
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card border-0 shadow-sm rounded-0 h-100" data-aos="fade-up" data-aos-duration="1000">
-                        <img src="<?= ROUTE ?>storage/image/other/news4.jpg" class="card-img-top rounded-0 foto-prestador" alt="...">
-                        <div class="card-body border-0">
-                            <div class="card-title">
-                                <h5 class="text-uppercase">
-                                    <a href="./prestador-info.php?id-prestador=0">Nome Prestador</a>
-                                </h5>
-                            </div>
-                            <div>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, eligendi temporibus odio reiciendis ipsam expedita quod assumenda accusamus nihil maiores aspernatur dignissimos dolore consequuntur nulla quo! Consequuntur odit neque minima.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </section>
-
 
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -41,7 +41,7 @@
                   <span>Configurações</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!" class="dropdown-item">
+              <a href="<?= ROUTE ?>views/sair.php" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
                   <span>Sair</span>
               </a>
