@@ -1,0 +1,86 @@
+/* RESET */
+@font-face {
+    font-family: "Montserrat Medium";
+    src: url(./fonts/static/Montserrat-Medium.ttf);
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url(./fonts/static/Montserrat-Bold.ttf);
+}
+
+html {
+
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Montserrat Medium";
+    scroll-behavior: smooth;
+}
+
+h5 {
+    font-family: "Montserrat" !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+/* ================== NAVBAR ======================== */
+ul.navegacao li a {
+    color: #1a1a1a !important;
+}
+
+.image-slide {
+    max-height: 100%;
+    height: 70vh !important;
+    object-fit: cover;
+    object-position: center;
+    padding: -20px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+}
+
+.div-icon {
+    margin-bottom: 30px !important;
+}
+
+.div-icon img {
+    float: left !important;
+    margin-left: -50px;
+    max-width: 100;
+    width: 10vh;
+}
+
+.div-icon h5 {
+    text-transform: uppercase;
+}
+
+.div-icon h5,
+p {
+    margin-top: 5px;
+    margin-left: 50px;
+    padding: 2px;
+}
+
+.foto-hero-0 {
+    margin-top: 50px !important;
+    margin: auto;
+    max-width: 100%;
+    width: 30vh;
+    object-fit: cover;
+    transform: scale(1.2);
+    z-index: -999999 !important;
+}
+
+.foto-prestador {
+    max-width: width 100px;
+    width: 100%;
+    height: 30vh !important;
+
+}

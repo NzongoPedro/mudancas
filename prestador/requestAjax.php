@@ -1,12 +1,11 @@
 <?php
 
-
 require_once './vendor/autoload.php';
-
 
 use App\Controller\prestadoresController as prestar;
 use App\Controller\servicosController as servicos;
-
+use App\Controller\publicacoesController as publicar;
+use App\Model\counter as contar;
 
 if (isset($_POST['acao'])) {
 
@@ -43,6 +42,54 @@ if (isset($_POST['acao'])) {
 
             echo json_encode(servicos::store($designacao, $descricao, $id_prestador));
 
+            break;
+
+        case 'edit-personal-data':
+
+            $nome_prestador = filter_input(INPUT_POST, 'nome-prestador');
+            $email_prestador = filter_input(INPUT_POST, 'email-prestador', FILTER_SANITIZE_EMAIL);
+            $nif_prestador = filter_input(INPUT_POST, 'num-ident', FILTER_SANITIZE_NUMBER_INT);
+            $id_prestador = filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT);
+
+            echo json_encode(prestar::editaDadosPessoas($nome_prestador, $email_prestador, $nif_prestador, $id_prestador));
+
+            break;
+
+
+        case 'post':
+
+            $publicacao_titulo = filter_input(INPUT_POST, 'titulo-post');
+            $publicacao_texto = nl2br(filter_input(INPUT_POST, 'conteudo-post'));
+            $publicacao_arquivo = $_FILES["arquivo-post"];
+            $publicacao_data = filter_input(INPUT_POST, 'data-post');
+            $id_prestador = filter_input(INPUT_POST, 'id_prestrador-post', FILTER_SANITIZE_NUMBER_INT);
+            $idpublicacao = filter_input(INPUT_POST, 'id-post', FILTER_SANITIZE_NUMBER_INT);
+
+            echo json_encode(publicar::sent($publicacao_titulo, $publicacao_texto, $publicacao_arquivo,  $publicacao_data, $id_prestador, $idpublicacao));
+            break;
+
+        case 'editarPostModal':
+
+            $idpublicacao = filter_input(INPUT_POST, 'idpublicacao', FILTER_SANITIZE_NUMBER_INT);
+
+            $mostrar = publicar::mostraPublicacaoModal($idpublicacao);
+            //var_dump($mostrar);
+            echo json_encode($mostrar);
+            break;
+
+        case 'eliminarPost':
+            $idpublicacao = filter_input(INPUT_POST, 'idpublicacao', FILTER_SANITIZE_NUMBER_INT);
+            echo json_encode(publicar::eliminarPublicacao($idpublicacao));
+            break;
+
+        case 'add-foto-prestador';
+            $id_prestador = filter_input(INPUT_POST, 'id-prestrador', FILTER_SANITIZE_NUMBER_INT);
+            $foto = $_FILES['foto-prestador'];
+            echo json_encode(prestar::addFoto($foto, $id_prestador));
+            break;
+
+        case 'counter':
+            echo json_encode(contar::counters());
             break;
 
         default:

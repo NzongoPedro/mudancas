@@ -20,6 +20,28 @@ require_once '../checkLogin.php';
   <link href="../assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="../assets/css/argon-dashboard.css?v=1.1.2" rel="stylesheet" />
+
+  <style>
+    /*   .form-upload {
+      background: #333;
+      display: block;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center
+    }
+
+    .input-personalizado {
+      cursor: pointer;
+    }
+
+    .imagem {
+      max-width: 100%;
+    }
+
+    .input-file {
+      display: none;
+    } */
+  </style>
 </head>
 
 <body class="">
@@ -46,14 +68,14 @@ require_once '../checkLogin.php';
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
         <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="../index.html">Meu perfil</a>
+        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./profile.php">Meu perfil</a>
         <!-- User -->
         <?php require '../templates/topPerfil.php'; ?>
       </div>
     </nav>
     <!-- End Navbar -->
     <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(../assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url(<?= ROUTE ?>assets/img/prestador/<?= $prestador->prestador_foto ?>); background-size: cover; background-position: center top;">
       <!-- Mask -->
       <span class="mask bg-gradient-default opacity-8"></span>
       <!-- Header container -->
@@ -75,14 +97,14 @@ require_once '../checkLogin.php';
               <div class="col-lg-3 order-lg-2">
                 <div class="card-profile-image">
                   <a href="#">
-                    <img src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">
+                    <img src="<?= ROUTE ?>assets/img/prestador/<?= $prestador->prestador_foto ?>" class="rounded-circle">
                   </a>
                 </div>
               </div>
             </div>
             <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               <div class="d-flex justify-content-between">
-                <a href="#" class="btn btn-sm btn-info mr-4">FOTO</a>
+                <a href="#" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#modalAddFoto">Foto</a>
                 <a href="#" class="btn btn-sm btn-default float-right">Mensagens</a>
               </div>
             </div>
@@ -123,20 +145,20 @@ require_once '../checkLogin.php';
               </div>
             </div>
             <div class="card-body">
-              <form>
+              <form class="form-dados-pessoas">
                 <h6 class="heading-small text-muted mb-4">Informações de usuários</h6>
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-username">Nome</label>
-                        <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Nome" value="<?= $prestador->prestador_nome ?> ">
+                        <input name="nome-prestador" type="text" id="input-username" class="form-control form-control-alternative" placeholder="Nome" value="<?= $prestador->prestador_nome ?> ">
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-email">E-mail</label>
-                        <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="jesse@example.com" value="<?= $prestador->prestador_email ?>">
+                        <input name="email-prestador" type="email" id="input-email" class="form-control form-control-alternative" placeholder="jesse@example.com" value="<?= $prestador->prestador_email ?>">
                       </div>
                     </div>
                   </div>
@@ -144,90 +166,106 @@ require_once '../checkLogin.php';
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-first-name">Tipo</label>
-                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="Tipo de prestadores" value="<?= $prestador->tipo_prestador ?>">
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="Tipo de prestadores" value="<?= $prestador->tipo_prestador ?>" readonly>
                       </div>
                     </div>
                     <div class="col-lg-6">
                       <div class="form-group">
                         <label class="form-control-label" for="input-last-name">Identificação</label>
-                        <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Número de indentificação" value="<?= $prestador->prestador_identificacao ?>">
+                        <input name="num-ident" type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Número de indentificação" value="<?= $prestador->prestador_identificacao ?>">
                       </div>
                     </div>
                   </div>
                 </div>
-                <hr class="my-4" />
-                <!-- Address -->
+                <div class="r-1"></div>
+                <div class="text-right">
+                  <button type="submit" class="btn btn-sm btn-primary">editar dados pessoas</button>
+                </div>
+                <input type="hidden" name="id-prestador" value="<?= $id_prestador ?>">
+              </form>
+              <hr class="my-4" />
+              <!-- Address -->
+              <form action="">
                 <h6 class="heading-small text-muted mb-4">Informações de contacto</h6>
                 <div class="pl-lg-4">
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-address">endereço</label>
-                        <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
+                        <label class="form-control-label" for="input-address">endereço google map</label>
+                        <input name="map-prestador" id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
+                    <div class="col-md-6">
                       <div class="form-group">
-                        <label class="form-control-label" for="input-city">Provícia</label>
-                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="New York">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Município</label>
-                        <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="United States">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Bairro</label>
-                        <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <label class="form-control-label" for="input-country">Rua</label>
-                        <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code">
+                        <label class="form-control-label" for="input-whatsapp">whatsapp</label>
+                        <input name="whasapp-prestador" id="input-whatsapp" class="form-control form-control-alternative" placeholder="Whatsapp" value="<?= $prestador->prestador_whatsapp ?>" type="text">
                       </div>
                     </div>
                   </div>
                 </div>
-
-              </form>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-city">Provícia</label>
+                      <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="New York">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Município</label>
+                      <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="United States">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Bairro</label>
+                      <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <label class="form-control-label" for="input-country">Rua</label>
+                      <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code">
+                    </div>
+                  </div>
+                </div>
             </div>
+            </form>
           </div>
         </div>
       </div>
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="row align-items-center justify-content-xl-between">
-          <div class="col-xl-6">
-            <div class="copyright text-center text-xl-left text-muted">
-              &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
-            </div>
-          </div>
-          <div class="col-xl-6">
-            <ul class="nav nav-footer justify-content-center justify-content-xl-end">
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
-              </li>
-              <li class="nav-item">
-                <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
-              </li>
-            </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="row align-items-center justify-content-xl-between">
+        <div class="col-xl-6">
+          <div class="copyright text-center text-xl-left text-muted">
+            &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
           </div>
         </div>
-      </footer>
-    </div>
+        <div class="col-xl-6">
+          <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+            <li class="nav-item">
+              <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md" class="nav-link" target="_blank">MIT License</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
   </div>
+  <!-- REQUIRE MODAL -->
+  <?php require '../components/modalAddFoto.php'; ?>
+
   <!--   Core   -->
   <script src="../assets/js/plugins/jquery/dist/jquery.min.js"></script>
   <script src="../assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -241,6 +279,79 @@ require_once '../checkLogin.php';
         token: "ee6fab19c5a04ac1a32a645abde4613a",
         application: "argon-dashboard-free"
       });
+  </script>
+
+  <script>
+    var url = location.href; //pega endereço que esta no navegador
+    url = url.split("/"); //quebra o endeço de acordo com a / (barra)
+
+    let urll = `http://${url[2]}/mudancas/prestador/requestAjax.php`
+
+    const editarDadosPessoas = () => {
+      resposta_1 = document.querySelector('.r-1')
+      const formDadosPessoas = document.querySelector('.form-dados-pessoas')
+      formDadosPessoas.addEventListener('submit', (e, payload) => {
+        e.preventDefault();
+        payload = new FormData(formDadosPessoas)
+        payload.append('acao', 'edit-personal-data')
+        /* ADD AJAX FOR HTTP REQUEST ASYNC */
+        fetch(urll, {
+            method: 'POST',
+            body: payload
+          })
+          .then(res => res.json())
+          .then(response => {
+            if (response.status == 'sucesso') {
+              resposta_1.innerHTML =
+                `<div class="alert alert-success">${response.msg}</div>`
+              setTimeout(() => {
+                location.reload()
+              }, 1500);
+            } else {
+              resposta_1.innerHTML =
+                `<div class = "alert alert-danger">${response.msg}</div>`
+            }
+          })
+          .catch(e => {
+            resposta_1.innerHTML = e
+          })
+      })
+    }
+
+    editarDadosPessoas()
+
+    /* ADD FOTO PERFIL  PRESTADOR */
+    const addFoto = async (dados, id_prestador) => {
+      const foto = document.querySelector(".form-foto")
+      let resp = document.querySelector(".form-foto-response")
+      foto.addEventListener('submit', (e, dados) => {
+        e.preventDefault()
+        dados = new FormData(foto)
+        dados.append('acao', 'add-foto-prestador')
+        fetch(urll, {
+            method: 'POST',
+            body: dados,
+            'Content-Type': "multipart/form-data"
+          })
+          .then(res => res.json())
+          .then(response => {
+            if (response.status == 'sucesso') {
+              resp.innerHTML =
+                `<div class="alert alert-success">${response.msg}</div>`
+              setTimeout(() => {
+                location.reload()
+              }, 1500);
+            } else {
+              resp.innerHTML =
+                `<div class = "alert alert-danger">${response.msg}</div>`
+            }
+          })
+        console.log((dados))
+      })
+
+    }
+
+    addFoto()
   </script>
 </body>
 

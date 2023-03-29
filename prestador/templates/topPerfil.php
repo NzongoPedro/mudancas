@@ -13,9 +13,16 @@
       <li class="nav-item dropdown">
           <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
-                  <span class="avatar avatar-sm rounded-circle">
-                      <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg">
-                  </span>
+                  <?php
+                    if ($prestador->prestador_foto == 'nullo') { ?>
+                      <span class="avatar avatar-sm rounded-circle">
+                          <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg">
+                      </span>
+                  <?php } else { ?>
+                      <span class="avatar avatar-sm rounded-circle">
+                          <img alt="Image placeholder" src="<?= ROUTE ?>assets/img/prestador/<?= $prestador->prestador_foto ?>">
+                      </span>
+                  <?php } ?>
                   <div class="media-body ml-2 d-none d-lg-block">
                       <span class="mb-0 text-sm  font-weight-bold"><?= $prestador->prestador_nome ?></span>
                   </div>
@@ -34,7 +41,7 @@
                   <span>Configurações</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!" class="dropdown-item">
+              <a href="<?= ROUTE ?>views/sair.php" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
                   <span>Sair</span>
               </a>
