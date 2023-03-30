@@ -34,6 +34,13 @@ class publicacoesController
         return $publicacoes;
     }
 
+    /* Mostra a publicação no lado do cliente*/
+    public static function mostraPublicacoesClient($id_publicacao)
+    {
+        $publicacoes = Publicar::mostraPublicacoesClients($id_publicacao);
+        return $publicacoes;
+    }
+
     /* Mostra a publicação*/
     public static function eliminarPublicacao($id_publicacao)
     {

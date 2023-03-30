@@ -147,6 +147,20 @@ class publicacoes
         }
     }
 
+    public static function mostraPublicacoesClients($id_publicacao)
+    {
+
+        // BUSCA A CHAVE ESTRAGENHEIRA E JUNTA AS TABELAS PRESTADORES E publicação
+        $publicacao = self::getInstance()->query("SELECT *FROM publicacoes AS Pb
+        INNER JOIN prestador AS P ON P.idprestador = Pb.id_prestador
+        WHERE Pb.idpublicacao = '$id_publicacao' 
+        ");
+
+        $dados = $publicacao->fetchAll(); // guarda os dados resultantes numa váriavel
+
+        return $dados; // retorna os dados para a controller
+    }
+
 
     public static function mostraPublicacoes($id_prestador)
     {

@@ -1,19 +1,10 @@
 <?php
 
-require_once '../config.php';
+require_once '../../client/config.php';
 
-if (isset($_SESSION['id-prestador'])) {
-    header('location: ' . ROUTE . 'views/profile.php');
+if (isset($_SESSION['id-cliente'])) {
+    header('location: ' . ROUTE);
 }
-
-require '../vendor/autoload.php';
-
-use App\Controller\prestadoresController as presta;
-use App\Controller\enderecosController as endereco;
-
-$tipo_prestador = presta::getTypePrestadores();
-$endereco_prestador = endereco::getAllAdress();
-
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -51,7 +42,7 @@ $endereco_prestador = endereco::getAllAdress();
                     <div class="navbar-collapse-header d-md-none">
                         <div class="row">
                             <div class="col-6 collapse-brand">
-                                <a href="../index.html">
+                                <a href="./">
                                     <img src="../assets/img/brand/blue.png">
                                 </a>
                             </div>
@@ -66,7 +57,7 @@ $endereco_prestador = endereco::getAllAdress();
                     <!-- Navbar items -->
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link nav-link-icon" href="../views/login.php">
+                            <a class="nav-link nav-link-icon" href="./login-client.php">
                                 <i class="ni ni-key-25"></i>
                                 <span class="nav-link-inner--text">Login</span>
                             </a>
@@ -150,7 +141,7 @@ $endereco_prestador = endereco::getAllAdress();
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                             </div>
-                                            <input name="bi-prestador" class="form-control" placeholder="Nº de BI" required type="text" required>
+                                            <input name="bi-cliente" class="form-control" placeholder="Nº de BI" required type="text" required>
                                         </div>
                                     </div>
                                     <div class="form-group col">
@@ -158,7 +149,7 @@ $endereco_prestador = endereco::getAllAdress();
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                             </div>
-                                            <input name="senha-prestador" class="form-control" placeholder="Password" required type="password">
+                                            <input name="senha-cliente" class="form-control" placeholder="Password" required type="password">
                                         </div>
                                     </div>
                                 </div>
@@ -169,12 +160,12 @@ $endereco_prestador = endereco::getAllAdress();
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                                         </div>
-                                        <input name="link-mapa" class="form-control" placeholder="Link de localização google map" required type="url">
+                                        <input name="endereco-cliente" class="form-control" placeholder="Bairro, rua, provincia" required type="address">
                                     </div>
                                 </div>
 
                                 <!-- Last line os data -->
-
+                                <div class="responseText"></div>
 
                                 <div class="text-center mb-2">
                                     <button required type="submit" class="btn btn-primary">Criar conta</button>
@@ -225,7 +216,7 @@ $endereco_prestador = endereco::getAllAdress();
         var url = location.href; //pega endereço que esta no navegador
         url = url.split("/"); //quebra o endeço de acordo com a / (barra)
 
-        let urll = `http://${url[2]}/mudancas/prestador/requestAjax.php`
+        let urll = `http://${url[2]}/mudancas/client/requests.php`
 
         const store = async () => {
             form = document.querySelector('form')
@@ -233,7 +224,7 @@ $endereco_prestador = endereco::getAllAdress();
                 e.preventDefault();
                 payload = new FormData(form)
 
-                payload.append('acao', 'store')
+                payload.append('acao', 'create-cliente')
 
                 resposta = document.querySelector('.responseText')
 
@@ -249,9 +240,9 @@ $endereco_prestador = endereco::getAllAdress();
                                 `<div class="alert alert-success" role="alert">
                     ${response.msg}
                 </div>`
-                            setTimeout(() => {
+                            /* setTimeout(() => {
                                 location.href = "./profile.php"
-                            }, 1500);
+                            }, 1500); */
                         } else {
                             resposta.innerHTML =
                                 `<div class = "alert alert-danger" role = "alert" >
