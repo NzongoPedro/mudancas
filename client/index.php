@@ -5,6 +5,7 @@ require '../prestador/vendor/autoload.php';
 use App\Controller\prestadoresController as prestatador;
 
 $prestador = prestatador::get();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
