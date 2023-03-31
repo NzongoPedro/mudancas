@@ -9,6 +9,7 @@ if (!isset($_SESSION['id-cliente'])) {
 
 use App\Controller\publicacoesController as Publicacao;
 use App\Controller\prestadoresController as Prestador;
+use Http\controller\reacoesController as reacoes;
 
 $id_prestador = ($_GET["id-prestador"]);
 $prestador = Prestador::getAll($id_prestador);
@@ -96,60 +97,131 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                                                         </div>
                                                     </div>
                                                     <div class="col-5 w-100 mb-3">
-                                                        <a class="btn rounde" href="#" onclick="" role="button-reacao" data-toggle="dropdown" aria-expanded="false">
-                                                            <i class="bi bi-heart text-warning"></i> 12 Interessados
-                                                        </a>
-                                                        <a class="btn" href="#" role="button-comentario" onclick="mostrarcomentModal(<?= $cliente->idpublicacao ?>)" data-toggle="modal" data-target="#modalNewPost">
-                                                            <i class="ni i-chat-round mr-3"></i> 7 Comentários</a>
+                                                        <button class="btn border-0 rounde bi bi-heart text-warning me-2 reacao" title="0" onclick="reacoes(<?= $idpublicacao ?>, <?= $id_cliente ?>)">
+                                                        </button>
+
+                                                    <?php
+                                                    if (reacoes::contarReacoes($idpublicacao) > 1) {
+                                                        echo '<span class="ms-0 num-reacoes" title="' . reacoes::contarReacoes($idpublicacao) . '">' . reacoes::contarReacoes($idpublicacao) . ' Interessados</span>';
+                                                    } else {
+                                                        echo '<span class="ms-0 num-reacoes" title="' . reacoes::contarReacoes($idpublicacao) . '">' . reacoes::contarReacoes($idpublicacao) . ' Interessado</span>';
+                                                    }
+                                                }
+                                                    ?>
+                                                    <a class="btn btn-coment" href="#" role="button-comentario" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="pegarDadosParaComentario(<?= $idpublicacao ?>)" onmouseover="verComentario()">
+                                                        <i class="bi bi-chat me-2 text-warning"></i> Comentários</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                             </div>
-                    <?php
-                                    }
+                        <?php
+
                                 }
 
-                    ?>
+                        ?>
 
                         </div>
                     </div>
                 </div>
             </div>
-    </div>
-    </section>
+
+        </section>
 
     </div>
+
+    <?php require './components/modalComentario.php'; ?>
 
     <script>
-        function mostrarcomentModal(id_post) {
-            /* mostrar os dados da bd na modal */
-            dados = new FormData();
-            dados.append('acao', 'editarPostModal')
-            dados.append('idpublicacao', id_post)
-            fetch(urll, {
+        /* hover reação */
+        numReacoes = document.querySelector('.num-reacoes')
+        reacao = document.querySelector('.reacao')
+        let msg = " Interessado"
+        reacao.addEventListener('click', () => {
+            if (parseInt(numReacoes.title) >= 2) {
+                msg = " Interessados"
+            }
+            if (reacao.title == '0') {
+                reacao.classList.add('bi-heart-fill')
+                reacao.classList.remove('bi-heart')
+                reacao.title = '1'
+                reacao.classList.add('text-warning')
+                reacao.classList.remove('text-dark')
+                numReacoes.title = parseInt(numReacoes.title) + 1
+                numReacoes.innerHTML = ` ${numReacoes.title} ${msg}`
+            } else {
+                reacao.classList.remove('bi-heart-fill')
+                reacao.classList.add('bi-heart')
+                reacao.title = '0'
+                reacao.classList.remove('text-warning')
+                reacao.classList.add('text-dark')
+                if (parseInt(numReacoes.title) - 1 <= 0) {
+
+                    numReacoes.title = parseInt(numReacoes.title) - 1
+                    numReacoes.innerHTML = ` ${numReacoes.title} ${msg}`
+                }
+            }
+
+            return reacao.title
+        })
+
+        const reacoes = (id_post, id_cliente) => {
+            payload = new FormData()
+            payload.append('acao', 'reagir-post')
+            payload.append('id-cliente', id_cliente)
+            payload.append('id-post', id_post)
+            fetch('./requests.php', {
+                body: payload,
+                method: 'POST',
+            })
+
+            return id_post
+        }
+
+        /* ver comentários */
+
+        const verComentario = (id_post, dados) => {
+            /* SHOW COMMENT */
+
+            setInterval(() => {
+                dados = new FormData();
+                dados.append('acao', 'ver-post')
+                dados.append('id-post', id_post)
+                fetch('./requests.php', {
+                        body: dados,
+                        method: 'POST',
+                    })
+                    .then(res => res.text())
+                    .then(response => {
+                        document.querySelector('.coment-div').innerHTML = response
+
+                    })
+            }, 2500);
+        }
+        const pegarDadosParaComentario = (id_post) => {
+            formComent = document.querySelector('.comentar-post')
+            formComent.addEventListener('submit', (e, payload) => {
+                e.preventDefault()
+                payload = new FormData(formComent)
+                payload.append('acao', 'comentar-post')
+                payload.append('id-post', id_post)
+
+                fetch('./requests.php', {
                     method: 'POST',
-                    body: dados
-                })
-                .then(res => res.json())
-                .then(response => {
-
-                    document.querySelector("#modalNewPostLabel").innerHTML = "Comentar Publicação";
-                    document.querySelector(".titulo-post").classList.add('d-none');
-                    document.querySelector(".foto-post").classList.add('d-none');
-                    document.querySelector(".texto-post").setAttribute('placeholder', "escreve aqui o teu comentário");;
-                    document.querySelector(".button-post").innerHTML = "Comentar";
-                    document.querySelector(".id-post").setAttribute('value', id_post);
+                    body: payload
                 })
 
+                formComent.reset()
+            })
         }
     </script>
 
+    <script src="<?= ROUTE ?>public/js/popper.js"></script>
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?= ROUTE ?>plugins/aos/aos.js"></script>
     <script>
         AOS.init()
+        // document.querySelector('.btn-coment').click()
     </script>
 
 </body>

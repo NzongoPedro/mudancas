@@ -9,6 +9,11 @@
     src: url(./fonts/static/Montserrat-Bold.ttf);
 }
 
+input,
+textarea {
+    box-shadow: none !important;
+}
+
 html {
 
     scroll-behavior: smooth;
@@ -18,6 +23,23 @@ body {
     font-family: "Montserrat Medium";
     scroll-behavior: smooth;
 }
+    body::-webkit-scrollbar {
+      width: 1px !important;
+      color:#ccc !important;
+      background-color: #444 !important;
+      border-radius: 25px !important;
+    }
+    body::-webkit-scrollbar-track {
+      border:2px solid #ccc !important;
+      color: #373737 !important;
+      background: #fffccc !important;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: #ccc !important;
+      width: 1px !important;
+      border-radius: 25px !important;
+    }
 
 h5 {
     font-family: "Montserrat" !important;
@@ -82,5 +104,4 @@ p {
     max-width: width 100px;
     width: 100%;
     height: 30vh !important;
-
 }
