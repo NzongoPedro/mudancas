@@ -6,7 +6,6 @@ if (!isset($_SESSION['id-cliente'])) {
     header('location:../prestador/views/login-client.php');
 }
 
-
 use App\Controller\publicacoesController as Publicacao;
 use App\Controller\prestadoresController as Prestador;
 use Http\controller\reacoesController as reacoes;
@@ -57,7 +56,9 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                                         <h5 class="text-warning"><?= $prestador->prestador_nome ?></h5>
                                     </div>
                                     <div class="icons text-white h3 float-end me-5">
-                                        <i class="bi bi-chat-dots text-warning"></i>
+                                        <a href="./perfil.php">
+                                            <i class="bi bi-chat-dots text-warning"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <?php
@@ -108,7 +109,7 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                                                     }
                                                 }
                                                     ?>
-                                                    <a class="btn btn-coment" href="#" role="button-comentario" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="pegarDadosParaComentario(<?= $idpublicacao ?>)" onmouseover="verComentario()">
+                                                    <a class="btn btn-coment" href="#" role="button-comentario" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="pegarDadosParaComentario(<?= $idpublicacao ?>)" onmouseover="verComentario(<?= $idpublicacao ?>)">
                                                         <i class="bi bi-chat me-2 text-warning"></i> Comentários</a>
                                                     </div>
                                                 </div>
@@ -125,9 +126,7 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                     </div>
                 </div>
             </div>
-
         </section>
-
     </div>
 
     <?php require './components/modalComentario.php'; ?>
@@ -198,6 +197,7 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                     })
             }, 2500);
         }
+
         const pegarDadosParaComentario = (id_post) => {
             formComent = document.querySelector('.comentar-post')
             formComent.addEventListener('submit', (e, payload) => {

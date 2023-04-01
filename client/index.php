@@ -27,59 +27,86 @@ $prestador = prestatador::get();
     <!-- FIM MENU NAVBAR -->
 
     <!-- CAROUCEL -->
-    <div id="carouselExampleCaptions" class="carousel slide mt-5">
+    <div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="<?= ROUTE ?>storage/image/slides/bg1.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
+                <div class="d-none d-md-block slide-caption">
+                    <h5>Kazuluca</h5>
+                    <p>Seja Bem-vindo a plataforma Mudança</p>
+                    <div class="text-center mt-5">
+                        <a href="../prestador/views/register.php" class="btn btn-lg rounded-0 btn-warning" target="_blank">Criar Conta</a>
+                        <a href="../prestador/views/register-client.php" class="btn btn-lg rounded-0 fundo-2 text-warning" target="_blank" target="_blank">Contratar</a>
+                    </div>
                 </div>
             </div>
+
             <div class="carousel-item">
                 <img src="<?= ROUTE ?>storage/image/slides/bg2.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
+                <div class="d-none d-md-block slide-caption">
+                    <h5>Epongoloko</h5>
+                    <p>A sua plaforma angolana de mudanças residencias e empresiarias</p>
+                    <div class="mt-5 text-end" style="margin-right: 150px;">
+                        <a href="../prestador/views/register.php" class="btn btn-lg rounded-0 btn-warning" target="_blank">Criar Conta</a>
+                        <a href="../prestador/views/register-client.php" class="btn btn-lg rounded-0 fundo-2 text-warning" target="_blank" target="_blank">Contratar</a>
+                    </div>
                 </div>
             </div>
+
             <div class="carousel-item">
                 <img src="<?= ROUTE ?>storage/image/slides/bg3.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                <div class="d-none d-md-block slide-caption">
+                    <h5>Balukidi</h5>
+                    <p>Serviços de mudanças de confiança e adequado ao seu bolso+</p>
+                    <div class="mt-5" style="margin-left: 200px !important;">
+                        <a href="../prestador/views/register.php" class="btn btn-lg rounded-0 btn-warning" target="_blank">Criar Conta</a>
+                        <a href="#" class="btn btn-lg rounded-0 fundo-2 text-warning">Contratar</a>
+                    </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="<?= ROUTE ?>storage/image/slides/bg4.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                <div class="d-none d-md-block slide-caption">
+                    <div class="text-center mt-5">
+                        <h5>Monnaie</h5>
+                        <p>Conectando quem precisa com quem sabe fazer.</p>
+                        <a href="../prestador/views/register.php" class="btn btn-lg rounded-0 btn-warning" target="_blank">Criar Conta</a>
+                        <a href="../prestador/views/register-client.php" class="btn btn-lg rounded-0 fundo-2 text-warning" target="_blank" target="_blank">Contratar</a>
+                    </div>
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="<?= ROUTE ?>storage/image/slides/bg5.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                <div class="d-none d-md-block slide-caption">
+                    <h5>Change</h5>
+                    <p>Converse com os prestadores e faça contratação de serviços desejado</p>
+                    <div class="mt-5 text-end" style="margin-right: 150px;">
+                        <a href="../prestador/views/register.php" class="btn btn-lg rounded-0 btn-warning" target="_blank">Criar Conta</a>
+                        <a href="../prestador/views/register-client.php" class="btn btn-lg rounded-0 fundo-2 text-warning" target="_blank" target="_blank">Contratar</a>
+                    </div>
                 </div>
             </div>
-            <div class="carousel-item">
+            <!--   <div class="carousel-item">
                 <img src="<?= ROUTE ?>storage/image/slides/bg6.jpg" class="d-block w-100 image-slide" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <div class="d-none d-md-block slide-caption">
                     <h5>Third slide label</h5>
                     <p>Some representative placeholder content for the third slide.</p>
                 </div>
-            </div>
+            </div> -->
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+        <div class="indicadores">
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+
     </div><!-- / FIM CAROUCEL -->
 
     <!-- SECTION HERO SERVIÇOS E PRESTADORES -->
@@ -193,6 +220,8 @@ $prestador = prestatador::get();
             </div>
         </div>
     </section>
+
+    <br><br><br><br><br>
 
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
