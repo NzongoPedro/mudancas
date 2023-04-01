@@ -38,7 +38,8 @@ class comentar
     public static function ver($id_post)
     {
         $ver = self::getInstance()->query("SELECT *FROM comentario_publicacao as CO 
-        INNER JOIN clientes AS CL ON CO.id_cliente = CL.idcliente");
+        INNER JOIN clientes AS CL ON CO.id_cliente = CL.idcliente
+        WHERE id_publicacao = '$id_post'");
         $row = $ver->fetchAll();
         return $row;
     }

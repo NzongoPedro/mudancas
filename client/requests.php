@@ -6,6 +6,7 @@ require_once './vendor/autoload.php';
 use Http\controller\clienteController as cliente;
 use Http\controller\reacoesController as reagir;
 use Http\controller\comentarController as comment;
+use Http\controller\mensagensController as sms;
 
 if (isset($_POST['acao'])) {
 
@@ -51,7 +52,7 @@ if (isset($_POST['acao'])) {
             foreach ($coment as $key) {
                 echo
                 '
-                      <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
+                    <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
                         <div class="toast-header">
                             <img src="..." class="rounded me-2" alt="...">
                             <strong class="me-auto">' . $key->cliente_nome . '</strong>
@@ -62,6 +63,27 @@ if (isset($_POST['acao'])) {
                         </div>
                     </div>
                   ';
+            }
+            break;
+
+        case 'ver-mensagens':
+            $id_cliente = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
+            $sms = sms::verMensagensPorIdCleinte($id_cliente);
+
+            foreach ($sms as $key) {
+                echo
+                '
+                    <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
+                        <div class="toast-header">
+                            <img src="..." class="rounded me-2" alt="...">
+                            <strong class="me-auto">' . $key->cliente_nome . '</strong>
+                            <small>data</small>
+                        </div>
+                        <div class="toast-body">
+                            ' . $key->mensagem_texto . '
+                        </div>
+                    </div>
+                ';
             }
             break;
 
