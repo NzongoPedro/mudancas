@@ -82,7 +82,8 @@ $contratos = contrato::show();
                     <th scope="col">#</th>
                     <th scope="col">cliente</th>
                     <th scope="col">serviço</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Status I</th>
+                    <th scope="col">Status II</th>
                     <th scope="col">Data solicitação</th>
                     <th scope="col">Data realização</th>
                     <th scope="col"></th>
@@ -112,17 +113,15 @@ $contratos = contrato::show();
                         </span>
                       </td>
                       <td>
+                        <span class="badge badge-dot mr-4">
+                          <i class="bg-warning"></i> pedente
+                        </span>
+                      </td>
+                      <td>
                         <?= $contrato->contrato_data ?>
                       </td>
                       <td>
-                        <div class="d-flex align-items-center">
-                          <span class="mr-2">60%</span>
-                          <div>
-                            <div class="progress">
-                              <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                            </div>
-                          </div>
-                        </div>
+                        <?= $contrato->data_realizacao_servico ?>
                       </td>
                       <td class="text-right">
                         <div class="dropdown">
@@ -130,9 +129,8 @@ $contratos = contrato::show();
                             <i class="fas fa-ellipsis-v"></i>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">Fechar contrato</a>
+                            <a class="dropdown-item" href="#">Ver detalhes</a>
                           </div>
                         </div>
                       </td>
