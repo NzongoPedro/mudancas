@@ -31,7 +31,7 @@ $servicos = servicos::mostraServico($id_prestador);
     <title>Nome Prestador </title>
 </head>
 
-<body>
+<body style="background: url(./storage/image/prestador/1.jfif);">
     <!-- MENU NAVBAR -->
     <?php require './components/header.php'; ?>
     <!-- FIM MENU NAVBAR -->
@@ -39,7 +39,8 @@ $servicos = servicos::mostraServico($id_prestador);
     <br><br><br>
     <div class="container">
         <section class="mt-2">
-            <div class="row">
+            <div class="row p-2">
+
                 <div class="col-2 bg-light">
                     <div class="card">
                         <div class="card-header">
@@ -59,7 +60,7 @@ $servicos = servicos::mostraServico($id_prestador);
                     </div>
                 </div>
 
-                <div class="col-6 bg-light" style="background: url(./storage/image/prestador/2.jp);">
+                <div class="col-6 bg-light">
                     <div class="card">
                         <div class="card-header">
                             <div class="float-end">
@@ -70,21 +71,14 @@ $servicos = servicos::mostraServico($id_prestador);
                                     <i class="bi bi-chat-dots text-warning me-2"></i>
                                     Mesnsagem
                                 </a>
-
-                                <a href="#!" class="text-warning ms-2" title="Contratar">
-                                    <i class="bi bi-pencil me-2"></i> Contratar
-                                </a>
-
                             </div>
                         </div>
-                        <div class="card-body">
-
-                            <?php
-                            if (isset($_GET["idpublicacao"])) {
-                                $idpublicacao = ($_GET["idpublicacao"]);
-                                $post = (Publicacao::mostraPublicacoesClient($idpublicacao));
-                                foreach ($post as $cliente) {
-                            ?>
+                        <?php
+                        if (isset($_GET["idpublicacao"])) {
+                            $idpublicacao = ($_GET["idpublicacao"]);
+                            $post = (Publicacao::mostraPublicacoesClient($idpublicacao));
+                            foreach ($post as $cliente) { ?>
+                                <div class="card-body">
                                     <div class="row w-100">
                                         <div class="col-lg-12 w-100 mb-2 id<?= $cliente->idpublicacao ?>">
                                             <div class="row bg-white rounded">
@@ -133,12 +127,10 @@ $servicos = servicos::mostraServico($id_prestador);
                                             </div>
                                         </div>
                                     </div>
-                        </div>
-                    <?php
-
-                            }
-
-                    ?>
+                                </div>
+                            <?php } else {
+                            print '<h5 class="text-center mt-5 mb-5">Clique no titulo de uma publicação para interagir</h5>';
+                        } ?>
                     </div>
                 </div>
 
@@ -149,24 +141,29 @@ $servicos = servicos::mostraServico($id_prestador);
                         </div>
                     </div>
                     <?php
-                    foreach ($servicos as $servico) {
-                        print  '<div class="card mb-2 bg-light">
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                             <span><b>' . $servico->servico_designacao . '</b></span> 
-                                        </div>
-                                        <p class="text-start text-left ms-0 mt-2">' . $servico->servico_descricao . '</p>
-                                       <div class="text-end"><a href="#" class="btn btn-warning btn-sm rounded-5">contratar</a></div>
-                                        
-                                    </div>
-                                </div>';
-                    } ?>
+                    foreach ($servicos as $servico) { ?>
+
+                        <div class="card mb-2 bg-light">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <span><b><?= $servico->servico_designacao ?></b></span>
+                                </div>
+                                <p class="text-start text-left ms-0 mt-2"><?= $servico->servico_descricao ?></p>
+                                <div class="text-end">
+                                    <a href="#" class="btn-contrat btn btn-warning btn-sm rounded-5" data-bs-toggle="modal" data-bs-target="#modalContrato" onclick="dadosServicoNaModal(<?= $servico->idservico ?>,  <?= "'$servico->servico_designacao'" ?>, <?= $id_prestador ?>, <?= "'$prestador->prestador_nome'" ?>)">
+                                        contratar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </section>
     </div>
 
     <?php require './components/modalComentario.php'; ?>
+    <?php require './components/modalContrato.php'; ?>
 
     <script>
         /* hover reação */
@@ -218,7 +215,6 @@ $servicos = servicos::mostraServico($id_prestador);
 
         const verComentario = (id_post, dados) => {
             /* SHOW COMMENT */
-
             setInterval(() => {
                 dados = new FormData();
                 dados.append('acao', 'ver-post')
@@ -258,13 +254,38 @@ $servicos = servicos::mostraServico($id_prestador);
             document.querySelector('.prestador').setAttribute('value', prestador_nome)
             document.querySelector('.prestador-input').setAttribute('value', $id_prestador)
         }
-        
+
         const novoContrato = () => {
             contratoForm = document.querySelector(".form-novo-contrato")
             contratoForm.addEventListener('submit', (e, payload) => {
                 e.preventDefault()
+                document.querySelector('.response-contrato')
+                    .innerHTML =
+                    `<div class="spinner-grow text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>`
+                payload = new FormData(contratoForm)
+                payload.append('acao', 'solicitar-contrato')
+                fetch('./requests.php', {
+                        body: payload,
+                        method: 'POST',
+                    }).then(res => res.json())
+                    .then(response => {
+                        setTimeout(() => {
+                            if (response.status === 'sucesso') {
+
+                                document.querySelector('.response-contrato')
+                                    .innerHTML = `<div class="alert alert-success">${response.msg}</div>`
+                            } else {
+                                document.querySelector('.response-contrato')
+                                    .innerHTML = `<div class="alert alert-danger">${response.msg}</div>`
+                            }
+                        }, 2500);
+                    })
+
             })
         }
+        novoContrato()
     </script>
 
     <script src="<?= ROUTE ?>public/js/popper.js"></script>
@@ -272,7 +293,7 @@ $servicos = servicos::mostraServico($id_prestador);
     <script src="<?= ROUTE ?>plugins/aos/aos.js"></script>
     <script>
         AOS.init()
-        // document.querySelector('.btn-coment').click()
+        document.querySelector('.btn-contrat').click()
     </script>
 
 </body>

@@ -6,6 +6,8 @@
     if (isset($_SESSION['id-cliente'])) {
         $id_cliente = $_SESSION['id-cliente'];
         $cliente = cliente::show($id_cliente);
+        $nomeCliente = $cliente->cliente_nome;
+        $idcliente = $cliente->idcliente ;
     }
 
     ?>
