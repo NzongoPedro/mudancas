@@ -1,10 +1,15 @@
 <?php
+
 require './config.php';
 require '../prestador/vendor/autoload.php';
+require './vendor/autoload.php';
 
 use App\Controller\prestadoresController as prestatador;
+use Http\controller\mensagensController as sms;
 
 $prestador = prestatador::get();
+$mensagem = '';
+$listaMensagem = sms::verListadeMensagens($id_cliente);
 
 ?>
 <!DOCTYPE html>
@@ -31,95 +36,103 @@ $prestador = prestatador::get();
     <section class="container mt-5 bg-light p-2">
         <div class="row mt-2">
             <!-- Menu esquerda -->
-            <div class="col-3">
+            <div class="col-4">
                 <div class="card border-0 rounded-0 bg-transparent">
                     <div class="card-title">
                         Mensagens
                     </div>
                     <ul class="list-group rounded-0">
-                        <li class="list-group-item">
-                            <a href="#!" class="nav-link" onclick="verMensagens(<?= $id_cliente ?>)">
-                                Nome prestador
-                                <span class="badge bg-primary rounded-pill float-end">14</span>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="./perfil.php?message" class="nav-link">
-                                Nome prestador
-                                <span class="badge bg-primary rounded-pill float-end">14</span>
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="./perfil.php?message" class="nav-link">
-                                Nome prestador
-                                <span class="badge bg-primary rounded-pill float-end">14</span>
-                            </a>
-                        </li>
+                        <?php
+                        foreach ($listaMensagem as $sms) { ?>
+                            <li class="list-group-item">
+                                <a href="#!" class="nav-link p2" onclick="verMensagens(<?= $id_cliente ?>, <?= $sms->idprestador ?>)">
+                                    <?= $sms->prestador_nome ?>
+                                    <!--  <span class="badge bg-primary rounded-pill float-end">14</span> -->
+                                </a>
+                            </li>
+
+                        <?php } ?>
+
                     </ul>
                 </div>
             </div>
 
             <!-- menu do meio -->
-            <div class="col-6">
-                <div class="card border-0 d-none div-mensagem">
+            <div class="col-5">
+                <div class="card border-0">
                     <div class="card-body bg-light">
                         <div class="card-title">
                             <h5>Conversas</h5>
                         </div>
-                        <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
-                            <div class="toast-header">
-                                <img src="..." class="rounded me-2" alt="...">
-                                <strong class="me-auto">Nome Clente</strong>
-                                <small>data</small>
-                            </div>
-                            <div class="toast-body">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam consequatur odit autem possimus ipsa perspiciatis beatae mollitia fugiat minus, quis eos voluptatum dolore cumque quas error. Corporis magnam error explicabo?
-                            </div>
-                        </div>
-                        <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
-                            <div class="toast-header">
-                                <img src="..." class="rounded me-2" alt="...">
-                                <strong class="me-auto">Nome Prestador</strong>
-                                <small>data</small>
-                            </div>
-                            <div class="toast-body">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam consequatur odit autem possimus ipsa perspiciatis beatae mollitia fugiat minus, quis eos voluptatum dolore cumque quas error. Corporis magnam error explicabo?
-                            </div>
-                        </div>
-                        <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
-                            <div class="toast-header">
-                                <img src="..." class="rounded me-2" alt="...">
-                                <strong class="me-auto">Nome Clente</strong>
-                                <small>data</small>
-                            </div>
-                            <div class="toast-body">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam consequatur odit autem possimus ipsa perspiciatis beatae mollitia fugiat minus, quis eos voluptatum dolore cumque quas error. Corporis magnam error explicabo?
-                            </div>
-                        </div>
 
-                        <div class="alert alert-secondary border-0">
-                            <form action="" class="comentar-post">
+                        <form action="" class="form-mensagem">
+                            <div class="div-mensagem bg-white">
+                                <?php
+                                if (isset($_GET['prestador'])) {
+                                    $id_prestador = filter_input(INPUT_GET, 'prestador', FILTER_SANITIZE_NUMBER_INT);
+                                    $nomePrestador = prestatador::getAll($id_prestador);
+                                    $conversas = sms::conversas($id_cliente, $id_prestador); ?>
+                                    <div class="card border-0">
+                                        <div class="card-body">
+                                            <div class="card-title">
+                                                <div class="">
+                                                    <img src="" alt="">
+                                                    <h5 class="text-muted"><?= $nomePrestador->prestador_nome ?></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    foreach ($conversas as $coversa) { ?>
+                                        <?php
+                                        if ($coversa->mensagem_from == 'cliente') : ?>
+                                            <div class="card bg-transparent border-0 mb-0" style="border-radius: 30px; width:25rem; margin-left:30% !important;">
+                                                <div class="card-body">
+                                                    <div class="alert alert-primary shadow-sm mb-1">
+                                                        <?= $coversa->mensagem_texto ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="card bg-transparent border-0 mb-0" style="border-radius: 30px; width:25rem;">
+                                                <div class="card-body">
+                                                    <div class="alert alert-secondary shadow-sm mb-1">
+                                                        <?= $coversa->mensagem_texto ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                <?php endif;
+                                    }
+                                }
+                                ?>
+                            </div>
+                            <div class="alert alert-secondary border-0">
                                 <div class="row w-100">
                                     <div class="col-10">
                                         <input type="text" name="mensagem" class="form-control form-control-lg ic" placeholder="Escreva a mesnsagem aqui..." required>
                                     </div>
-                                    <div class="col-1">
+                                    <!--   <div class="col-1">
                                         <button type="submit" class="btn btn-primary btn-lg rounded-0">
                                             <i class="bi bi-image"></i>
                                         </button>
-                                    </div>
+                                    </div> -->
                                     <div class="col-1">
                                         <button type="submit" class="btn btn-primary btn-lg">
-                                            <i class="bi bi-send-fill"></i>
+                                            enviar
                                         </button>
+                                        <input type="hidden" name="from" value="cliente">
+                                        <?php if (!isset($id_prestador)) {
+                                            $id_prestador = '';
+                                        } ?>
                                         <input type="hidden" name="id-cliente" value="<?= $id_cliente ?>">
+                                        <input type="hidden" name="id-prestador" class="id-prestador" value="<?= $id_prestador ?>">
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <script src="<?= ROUTE ?>plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -130,15 +143,17 @@ $prestador = prestatador::get();
     </script>
 
     <script>
-        const verMensagens = (id_cliente) => {
+        const verMensagens = (id_cliente, id_prestador) => {
             let div_mensagem = document.querySelector('.div-mensagem')
             div_mensagem.classList.remove('d-none')
+            document.querySelector('.id-prestador').setAttribute('value', id_prestador)
+
+            payload = new FormData()
+            payload.append('acao', 'ver-mensagens')
+            payload.append('id-cliente', id_cliente)
+            payload.append('id-prestador', id_prestador)
 
             setInterval(() => {
-                payload = new FormData()
-                payload.append('acao', 'ver-mensagens')
-                payload.append('id-cliente', id_cliente)
-
                 fetch('./requests.php', {
                         method: 'POST',
                         body: payload
@@ -150,6 +165,25 @@ $prestador = prestatador::get();
             }, 1500);
 
         }
+
+        //reponder mensgame
+        const enviarMensagem = () => {
+
+            const formMensagem = document.querySelector('.form-mensagem')
+            formMensagem.addEventListener('submit', (e, payload) => {
+                e.preventDefault();
+                payload = new FormData(formMensagem)
+                payload.append('acao', 'enviar-mensagem')
+                /* ADD AJAX FOR HTTP REQUEST ASYNC */
+                fetch('./requests.php', {
+                    method: 'POST',
+                    body: payload
+                })
+                formMensagem.reset()
+            })
+        }
+
+        enviarMensagem();
     </script>
 </body>
 
