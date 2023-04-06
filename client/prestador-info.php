@@ -251,6 +251,13 @@ $servicos = servicos::mostraServico($id_prestador);
                 formComent.reset()
             })
         }
+
+        const dadosServicoNaModal = (id_servico, nome_servico, $id_prestador, prestador_nome) => {
+            document.querySelector('.servico').setAttribute('value', nome_servico)
+            document.querySelector('.servico-input').setAttribute('value', id_servico)
+            document.querySelector('.prestador').setAttribute('value', prestador_nome)
+            document.querySelector('.prestador-input').setAttribute('value', $id_prestador)
+        }
     </script>
 
     <script src="<?= ROUTE ?>public/js/popper.js"></script>
