@@ -25,7 +25,7 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link " href="<?= ROUTE ?>views/profile.php">
+          <a class="nav-link " href="<?= ROUTE ?>views/mensagens.php">
               <i class="ni ni-chat-round text-info"></i> Mensagens
           </a>
       </li>

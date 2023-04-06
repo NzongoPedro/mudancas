@@ -105,7 +105,7 @@ require_once '../checkLogin.php';
             <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
               <div class="d-flex justify-content-between">
                 <a href="#" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#modalAddFoto">Foto</a>
-                <a href="#" class="btn btn-sm btn-default float-right">Mensagens</a>
+                <a href="#" class="btn btn-sm btn-default float-right" data-toggle="modal" data-target="#modalMensagem">Mensagens</a>
               </div>
             </div>
             <div class="card-body pt-0 pt-md-4">
@@ -265,6 +265,7 @@ require_once '../checkLogin.php';
   </div>
   <!-- REQUIRE MODAL -->
   <?php require '../components/modalAddFoto.php'; ?>
+  <?php require '../components/modalMensagem.php'; ?>
 
   <!--   Core   -->
   <script src="../assets/js/plugins/jquery/dist/jquery.min.js"></script>

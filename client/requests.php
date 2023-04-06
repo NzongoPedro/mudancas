@@ -66,27 +66,85 @@ if (isset($_POST['acao'])) {
             }
             break;
 
-        case 'ver-mensagens':
+        case 'enviar-mensagem':
             $id_cliente = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
-            $sms = sms::verMensagensPorIdCleinte($id_cliente);
+            $id_prestador = filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT);
+            $texto = addslashes(htmlspecialchars(filter_input(INPUT_POST, 'mensagem')));
+            $from = filter_input(INPUT_POST, 'from');
+            echo sms::sent($texto, $id_prestador, $id_cliente, $from);
+            break;
 
-            foreach ($sms as $key) {
-                echo
-                '
-                    <div role="alert" aria-live="assertive" aria-atomic="true" class="mb-2 border-0 toast shadow-none show w-100" data-bs-autohide="false">
-                        <div class="toast-header">
-                            <img src="..." class="rounded me-2" alt="...">
-                            <strong class="me-auto">' . $key->cliente_nome . '</strong>
-                            <small>data</small>
-                        </div>
-                        <div class="toast-body">
-                            ' . $key->mensagem_texto . '
+        case 'ver-mensagens-2':
+            $id_cliente = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
+            $id_prestador = filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT);
+            $sms = sms::verMensagensPorPrestador($id_cliente, $id_prestador);
+            echo '<div class="card border-0">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <div class="">
+                                <img src="" alt="">
+                                <h5 class="text-muted">' . $sms[0]->cliente_nome . '</h5>
+                            </div>
                         </div>
                     </div>
-                ';
+               
+                </div>';
+            foreach ($sms as $coversa) {
+                if ($coversa->mensagem_from == 'cliente') :
+                    echo '<div class="card bg-transparent border-0 mb-0" style="border-radius: 30px; margin-left:30% !important;">
+                        <div class="card-body">
+                            <div class="alert alert-secondary shadow-sm mb-1">
+                                ' . $coversa->mensagem_texto . '
+                            </div>
+                        </div>
+                    </div>';
+                else :
+                    echo '<div class="card bg-transparent border-0 mb-0" style="border-radius: 30px; width:25rem;">
+                        <div class="card-body">
+                            <div class="alert alert-primary shadow-sm mb-1">
+                                ' . $coversa->mensagem_texto . '
+                            </div>
+                        </div>
+                    </div>';
+                endif;
             }
             break;
 
+        case 'ver-mensagens':
+            $id_cliente = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
+            $id_prestador = filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT);
+            $sms = sms::verMensagensPorIdCleinte($id_cliente, $id_prestador);
+            echo '<div class="card border-0">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <div class="">
+                                <img src="" alt="">
+                                <h5 class="text-muted">' . $sms[0]->prestador_nome . '</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>';
+            foreach ($sms as $coversa) {
+                if ($coversa->mensagem_from == 'cliente') :
+                    echo '<div class="card bg-transparent border-0 mb-0" style="border-radius: 30px; margin-left:30% !important;">
+                        <div class="card-body">
+                            <div class="alert alert-primary shadow-sm mb-1">
+                                ' . $coversa->mensagem_texto . '
+                            </div>
+                        </div>
+                    </div>';
+                else :
+                    echo '<div class="card bg-transparent border-0 mb-0 float-left" style="border-radius: 30px; width:25rem;">
+                        <div class="card-body">
+                            <div class="alert alert-secondary shadow-sm mb-1">
+                                ' . $coversa->mensagem_texto . '
+                            </div>
+                        </div>
+                    </div>';
+                endif;
+            }
+            break;
         default:
             # code...
             break;
