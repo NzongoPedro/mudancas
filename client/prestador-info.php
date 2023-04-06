@@ -258,6 +258,13 @@ $servicos = servicos::mostraServico($id_prestador);
             document.querySelector('.prestador').setAttribute('value', prestador_nome)
             document.querySelector('.prestador-input').setAttribute('value', $id_prestador)
         }
+        
+        const novoContrato = () => {
+            contratoForm = document.querySelector(".form-novo-contrato")
+            contratoForm.addEventListener('submit', (e, payload) => {
+                e.preventDefault()
+            })
+        }
     </script>
 
     <script src="<?= ROUTE ?>public/js/popper.js"></script>
