@@ -127,8 +127,6 @@ $mensagens = sms::verMensagem($id_prestador);
                 </div>
             </div>
         </div>
-
-
         <!-- Footer -->
         <footer class="footer">
             <div class="row align-items-center justify-content-xl-between">

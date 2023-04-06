@@ -52,4 +52,15 @@ class contratos
             return ['status' => 'erro', "msg" => $erros];
         }
     }
+
+    # ver contrato, no template presador
+    public static function show()
+    {
+        $show = self::getInstance()->query("SELECT * FROM contratos AS CT
+        INNER JOIN clientes AS CL ON CT.id_cliente = CL.idcliente
+        INNER JOIN servicos AS SV ON CT.id_servico = SV.idservico
+        ");
+
+        return $show->fetchAll();
+    }
 }

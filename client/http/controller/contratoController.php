@@ -10,4 +10,9 @@ class contratoController
     {
         return contrato::enviarContrato($id_cliente, $id_prestador, $id_servico, $endereco_atual, $endereco_destino);
     }
+
+    public static function show()
+    {
+        return contrato::show();
+    }
 }
