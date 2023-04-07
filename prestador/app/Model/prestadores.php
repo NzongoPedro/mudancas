@@ -105,13 +105,112 @@ class prestadores
 
     /* STORE */
 
-    public static function storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)
+    public static function storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador, $arquivo_certidao, $arquivo_nif, $arquivo_bi)
     {
         try {
+            $formatos_permitidos = array('pdf');
 
-            $store = self::getInstance()->prepare("INSERT INTO prestador (prestador_nome, id_tipo_orestador, prestador_identificacao, prestador_localizacao, prestador_email, prestador_whatsapp, prestador_senha)
-        VALUES(?,?,?,?,?,?,?)
-        ");
+            // certidão
+
+            $certidao = array(
+                'arquivo'  => $arquivo_certidao['name'],
+                'temporal' => $arquivo_certidao['tmp_name'],
+                'tipo' => strtolower($arquivo_certidao['type']),
+                'formato'  => strtolower(pathinfo($arquivo_certidao['name'], PATHINFO_EXTENSION)),
+                'nome' => uniqid() . '.' . strtolower(pathinfo($arquivo_certidao['name'], PATHINFO_EXTENSION)),
+                'diretorio' => './assets/docs/prestador/'
+            );
+
+            if (in_array($certidao['formato'], $formatos_permitidos)) {
+
+                # ========================= VERIFICA O DIRECTORIO =====================
+                if (is_dir($certidao['diretorio'])) {
+
+                    # ===================================== TENTA O UPLOAD ==================
+                    if (move_uploaded_file($certidao['temporal'], $certidao['diretorio'] . $certidao['nome'])) {
+                        $arquivo_certidao = $certidao['nome'];
+                    } else {
+                        $erros = 'Falha no upload.';
+                    }
+                } else {
+                    mkdir($certidao['diretorio']);
+                    move_uploaded_file($certidao['temporal'], $certidao['diretorio'] . $certidao['nome']);
+                    $arquivo_certidao = $certidao['nome'];
+                }
+            } else {
+                $arquivo_certidao = "";
+                $erros = 'Formato .' . $certidao['formato'] . ' não é permitido';
+            }
+
+            // nif
+
+            $nif = array(
+                'arquivo'  => $arquivo_nif['name'],
+                'temporal' => $arquivo_nif['tmp_name'],
+                'tipo' => strtolower($arquivo_nif['type']),
+                'formato'  => strtolower(pathinfo($arquivo_nif['name'], PATHINFO_EXTENSION)),
+                'nome' => uniqid() . '.' . strtolower(pathinfo($arquivo_nif['name'], PATHINFO_EXTENSION)),
+                'diretorio' => './assets/docs/prestador/'
+            );
+
+            if (in_array($nif['formato'], $formatos_permitidos)) {
+
+                # ========================= VERIFICA O DIRECTORIO =====================
+                if (is_dir($nif['diretorio'])) {
+
+                    # ===================================== TENTA O UPLOAD ==================
+                    if (move_uploaded_file($nif['temporal'], $nif['diretorio'] . $nif['nome'])) {
+                        $arquivo_nif = $nif['nome'];
+                    } else {
+                        $erros = 'Falha no upload.';
+                    }
+                } else {
+                    mkdir($nif['diretorio']);
+                    move_uploaded_file($nif['temporal'], $nif['diretorio'] . $nif['nome']);
+                    $arquivo_nif = $nif['nome'];
+                }
+            } else {
+                $arquivo_nif = "";
+                $erros = 'Formato .' . $nif['formato'] . ' não é permitido';
+            }
+
+            // BI
+
+            $bi = array(
+
+                'arquivo'  => $arquivo_bi['name'],
+                'temporal' => $arquivo_bi['tmp_name'],
+                'tipo' => strtolower($arquivo_bi['type']),
+                'formato'  => strtolower(pathinfo($arquivo_bi['name'], PATHINFO_EXTENSION)),
+                'nome' => uniqid() . '.' . strtolower(pathinfo($arquivo_bi['name'], PATHINFO_EXTENSION)),
+                'diretorio' => './assets/docs/prestador/'
+            );
+
+            if (in_array($bi['formato'], $formatos_permitidos)) {
+
+                # ========================= VERIFICA O DIRECTORIO =====================
+                if (is_dir($bi['diretorio'])) {
+
+                    # ===================================== TENTA O UPLOAD ==================
+                    if (move_uploaded_file($bi['temporal'], $bi['diretorio'] . $bi['nome'])) {
+                        $arquivo_bi = $bi['nome'];
+                    } else {
+                        $erros = 'Falha no upload.';
+                    }
+                } else {
+                    mkdir($bi['diretorio']);
+                    move_uploaded_file($bi['temporal'], $bi['diretorio'] . $bi['nome']);
+                    $arquivo_bi = $bi['nome'];
+                }
+            } else {
+                $arquivo_bi = "";
+                $erros = 'Formato .' . $nif['formato'] . ' não é permitido';
+            }
+
+
+            $store = self::getInstance()->prepare("INSERT INTO prestador (prestador_nome, id_tipo_orestador, prestador_identificacao, prestador_localizacao, prestador_email, prestador_whatsapp, prestador_senha, prestador_arquivo_certidao, prestador_arquivo_nif, prestador_arquivo_bi)
+            VALUES(?,?,?,?,?,?,?,?,?,?)
+            ");
 
             $store->bindValue(1, $nome_prestador);
             $store->bindValue(2, $tipo_prestador);
@@ -120,6 +219,9 @@ class prestadores
             $store->bindValue(5, $email_prestador);
             $store->bindValue(6, $whatsapp_prestador);
             $store->bindValue(7, $senha_prestador);
+            $store->bindValue(8, $arquivo_certidao);
+            $store->bindValue(9, $arquivo_nif);
+            $store->bindValue(10, $arquivo_bi);
             //$store->bindValue(8, 1);
 
             $erros = self::validateDate($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador);
@@ -129,10 +231,9 @@ class prestadores
                     $data = self::getInstance()->query("SELECT *FROM prestador WHERE prestador_email = '$email_prestador'");
                     $_SESSION['id-prestador'] = $data->fetch()->idprestador;
                     return ['status' => 'sucesso', 'msg' => 'Sucesso ao registrar'];
-                } /* else {
-
+                } else {
                     return ['status' => 'erro', 'msg' => 'Algo deu errado'];
-                } */
+                }
             } else {
                 return ['status' => 'erro', 'msg' => $erros];
             }
@@ -249,9 +350,14 @@ class prestadores
             if ($selectPassord->rowCount() > 0) {
                 $data = self::getInstance()->query("SELECT *FROM prestador WHERE prestador_email = '$email' AND prestador_senha = '$password'");
                 if ($data->rowCount() > 0) {
+                    // verfica se aconta esta atida
+                    /*  $check = self::getInstance()->query("SELECT prestador_estado_conta FROM prestador WHERE prestador_email = '$email'");
+                    if ($check->fetch()->prestador_estado_conta == '0') {
+                        return ['status' => 'erro', 'msg' => 'A sua conta está sendo analizada, por isso está temporariamente indispónivel para o uso.'];
+                    } else { */
                     session_start();
                     $_SESSION['id-prestador'] = $data->fetch()->idprestador;
-
+                    //}
                     return ['status' => 'sucesso', 'msg' => 'Acesso garantido'];
                 } else {
                     return ['status' => 'erro', 'msg' => 'Verifique se os seus dados estão corretos', 'data' => $_POST];

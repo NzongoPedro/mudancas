@@ -22,8 +22,11 @@ if (isset($_POST['acao'])) {
             $whatsapp_prestador = filter_input(INPUT_POST, 'whatsapp-prestador', FILTER_SANITIZE_NUMBER_INT);
             $mapGoole_prestador = filter_input(INPUT_POST, 'link-mapa', FILTER_SANITIZE_URL);
             $senha_prestador = md5(filter_input(INPUT_POST, 'senha-prestador'));
+            $arquivo_bi = $_FILES['arquivo-bi'];
+            $arquivo_nif = $_FILES['arquivo-nif'];
+            $arquivo_certidao = $_FILES['arquivo-certidao'];
 
-            echo json_encode(prestar::store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador));
+            echo json_encode(prestar::store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador, $arquivo_certidao, $arquivo_nif, $arquivo_bi));
             break;
 
         case 'login':

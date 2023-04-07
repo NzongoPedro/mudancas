@@ -28,9 +28,9 @@ class prestadoresController
 
     /* STORE */
 
-    public static function  store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador)
+    public static function  store($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador, $arquivo_certidao, $arquivo_nif, $arquivo_bi)
     {
-        return Prestador::storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador);
+        return Prestador::storer($nome_prestador, $email_prestador, $senha_prestador, $nif_prestador, $mapGoole_prestador, $whatsapp_prestador, $tipo_prestador, $arquivo_certidao, $arquivo_nif, $arquivo_bi);
     }
 
     /* edit personal data */

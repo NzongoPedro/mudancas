@@ -54,11 +54,12 @@ class contratos
     }
 
     # ver contrato, no template presador
-    public static function show()
+    public static function show($id_prestador)
     {
         $show = self::getInstance()->query("SELECT * FROM contratos AS CT
         INNER JOIN clientes AS CL ON CT.id_cliente = CL.idcliente
         INNER JOIN servicos AS SV ON CT.id_servico = SV.idservico
+        WHERE CT.id_prestador = '$id_prestador' 
         ");
 
         return $show->fetchAll();

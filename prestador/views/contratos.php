@@ -5,7 +5,7 @@ require_once '../checkLogin.php';
 
 use Http\controller\contratoController as contrato;
 
-$contratos = contrato::show();
+$contratos = contrato::show($id_prestador);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
