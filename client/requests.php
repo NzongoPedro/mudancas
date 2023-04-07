@@ -7,6 +7,7 @@ use Http\controller\clienteController as cliente;
 use Http\controller\reacoesController as reagir;
 use Http\controller\comentarController as comment;
 use Http\controller\mensagensController as sms;
+use Http\controller\contratoController as contrato;
 
 if (isset($_POST['acao'])) {
 
@@ -32,7 +33,6 @@ if (isset($_POST['acao'])) {
 
             print json_encode(cliente::login($cliente_email, $cliente_senha));
             break;
-
         case 'reagir-post':
             $id_post = filter_input(INPUT_POST, 'id-post', FILTER_SANITIZE_NUMBER_INT);
             $id_clinte = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
@@ -145,8 +145,17 @@ if (isset($_POST['acao'])) {
                 endif;
             }
             break;
+
+        case 'solicitar-contrato':
+            $id_cliente = filter_input(INPUT_POST, 'id-cliente', FILTER_SANITIZE_NUMBER_INT);
+            $id_prestador = filter_input(INPUT_POST, 'id-prestador', FILTER_SANITIZE_NUMBER_INT);
+            $id_servico = filter_input(INPUT_POST, 'id-servico', FILTER_SANITIZE_NUMBER_INT);
+            $endereco_atual = filter_input(INPUT_POST, 'endereco-atual');
+            $endereco_destino = filter_input(INPUT_POST, 'endereco-destino');
+            print json_encode(contrato::enviarContrato($id_cliente, $id_prestador, $id_servico, $endereco_atual, $endereco_destino));
+            break;
         default:
-            # code...
+
             break;
     }
 }

@@ -101,24 +101,12 @@ $endereco_prestador = endereco::getAllAdress();
       <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary shadow border-0">
-            <div class="card-header bg-transparent pb-5">
-              <div class="text-muted text-center mt-2 mb-4"><small>Registrar com</small></div>
-              <div class="text-center">
-                <a href="#" class="btn btn-neutral btn-icon mr-4">
-                  <span class="btn-inner--icon"><img src="../assets/img/icons/common/github.svg"></span>
-                  <span class="btn-inner--text">Github</span>
-                </a>
-                <a href="#" class="btn btn-neutral btn-icon">
-                  <span class="btn-inner--icon"><img src="../assets/img/icons/common/google.svg"></span>
-                  <span class="btn-inner--text">Google</span>
-                </a>
-              </div>
-            </div>
+
             <div class="card-body px-lg-5 py-lg-2">
               <div class="text-center text-muted mb-4">
-                <small>Ou insira as sua credencias para o registro</small>
+                <small>Preencha o formulário para o registro</small>
               </div>
-              <form role="form">
+              <form role="form" enctype="multipart/form-data">
                 <!-- Firs Line OF Data -->
                 <div class="form-row row">
                   <div class="form-group col">
@@ -155,21 +143,7 @@ $endereco_prestador = endereco::getAllAdress();
                       </select>
                     </div>
                   </div>
-                  <div class="form-group col">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-map-big"></i></span>
-                      </div>
-                      <select name="endereco-prestador" class="custom-select border-0" disabled>
-                        <option value="0" disabled selected>Endereço</option>
-                        <?php
-                        foreach ($endereco_prestador as $endereco) : ?>
-                          <option value="<?= $endereco->idenderecos_prestador ?>"><?= $endereco->endereco_provincia ?></option>
-                        <?php endforeach
-                        ?>
-                      </select>
-                    </div>
-                  </div>
+
                 </div>
                 <!-- Thirth line of data -->
                 <div class="form-group">
@@ -209,7 +183,32 @@ $endereco_prestador = endereco::getAllAdress();
                   </div>
                 </div>
 
-                <div class="row my-4">
+                <!-- ARQUIVOS -->
+                <div class="row my-2">
+                  <div class="form-group col-12 mb-2">
+                    <label for="#">Carregue o certidão comercial [PDF]</label>
+                    <br>
+                    <input type="file" name="arquivo-certidao" id="">
+                  </div>
+                </div>
+                <div class="row my-2">
+                  <div class="form-group col-12 mb-2">
+                    <label for="#">Carregue o NIF [PDF]</label>
+                    <br>
+                    <input type="file" name="arquivo-nif" id="">
+                  </div>
+                </div>
+                <div class="row my-2">
+                  <div class="form-group col-12 mb-2">
+                    <label for="#">Carregue o BI frente e verso [PDF]</label>
+                    <br>
+                    <input type="file" name="arquivo-bi" id="">
+                  </div>
+                </div>
+
+
+
+                <div class="row">
                   <div class="col-12">
                     <div class="custom-control custom-control-alternative custom-checkbox responseText">
                     </div>

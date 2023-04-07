@@ -204,7 +204,7 @@ if (isset($_SESSION['id-cliente'])) {
                     ${response.msg}
                 </div>`
                         setTimeout(() => {
-                            location.href = "../../client/"
+                            location.href = "../../client/perfil.php"
                         }, 1500);
                     } else {
                         resposta.innerHTML =

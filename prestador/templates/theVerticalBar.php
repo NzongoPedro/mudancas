@@ -35,8 +35,8 @@
           </a>
       </li>
       <li class="nav-item">
-          <a class="nav-link " href="<?= ROUTE ?>views/tables.php">
-              <i class="ni ni-bullet-list-67 text-red"></i> Tables
+          <a class="nav-link " href="<?= ROUTE ?>views/contratos.php">
+              <i class="ni ni-bullet-list-67 text-red"></i> Contratos
           </a>
       </li>
       <!--  <li class="nav-item">
