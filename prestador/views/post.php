@@ -299,6 +299,21 @@ $publicacoes = Publicacao::mostraPublicacao($id_prestador);
                     // $('#modalNewPost').modal('show')
                 })
             </script>
+            <script>
+                if (<?= $estado_conta ?> == '0') {
+                    document.querySelector('.mt--7')
+                        .innerHTML =
+                        `
+        <div class="card alert-danger alert">
+          <div class="card-body lead">
+            Seja Bem-Vindo a Plataforma Mudança, que te ajudará a encontrar, contratar ou oferecer serviços de mudanças.
+          <br>  Mas para isso, a sua conta precisa estar activada, aguarda enquanto verificamos a veracidade dos seus dados fornecido no processo de registro.
+            Receberás um E-mail de feedback. Fique atendo na sua caixa de entrada.
+            </div>
+        </div>
+       `
+                }
+            </script>
 </body>
 
 </html>
