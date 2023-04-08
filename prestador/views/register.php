@@ -188,25 +188,23 @@ $endereco_prestador = endereco::getAllAdress();
                   <div class="form-group col-12 mb-2">
                     <label for="#">Carregue o certidão comercial [PDF]</label>
                     <br>
-                    <input type="file" name="arquivo-certidao" id="">
+                    <input type="file" name="arquivo-certidao" required>
                   </div>
                 </div>
                 <div class="row my-2">
                   <div class="form-group col-12 mb-2">
                     <label for="#">Carregue o NIF [PDF]</label>
                     <br>
-                    <input type="file" name="arquivo-nif" id="">
+                    <input type="file" name="arquivo-nif" required>
                   </div>
                 </div>
                 <div class="row my-2">
                   <div class="form-group col-12 mb-2">
                     <label for="#">Carregue o BI frente e verso [PDF]</label>
                     <br>
-                    <input type="file" name="arquivo-bi" id="">
+                    <input type="file" name="arquivo-bi" required>
                   </div>
                 </div>
-
-
 
                 <div class="row">
                   <div class="col-12">

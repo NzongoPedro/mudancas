@@ -33,7 +33,7 @@ $listaMensagem = sms::verListadeMensagens($id_cliente);
 
     <!-- PERFIL -->
     <br>
-    <section class="container mt-5 bg-light p-2">
+    <section class="container mt-5 bg-light p-2 oculto">
         <div class="row mt-2">
             <!-- Menu esquerda -->
             <div class="col-4">
@@ -184,6 +184,22 @@ $listaMensagem = sms::verListadeMensagens($id_cliente);
         }
 
         enviarMensagem();
+    </script>
+
+    <script>
+        if (<?= $estado_conta ?> == '0') {
+            document.querySelector('.oculto')
+                .innerHTML =
+                `
+                <div class="card alert-danger alert">
+                <div class="card-body lead">
+                    Seja Bem-Vindo a Plataforma Mudança, que te ajudará a encontrar, contratar ou oferecer serviços de mudanças.
+                <br>  Mas para isso, a sua conta precisa estar activada, aguarda enquanto verificamos a veracidade dos seus dados fornecido no processo de registro.
+                    Receberás um E-mail de feedback. Fique atendo na sua caixa de entrada.
+                    </div>
+                </div>
+       `
+        }
     </script>
 </body>
 

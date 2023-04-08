@@ -7,14 +7,15 @@
         $id_cliente = $_SESSION['id-cliente'];
         $cliente = cliente::show($id_cliente);
         $nomeCliente = $cliente->cliente_nome;
-        $idcliente = $cliente->idcliente ;
+        $idcliente = $cliente->idcliente;
+        $estado_conta = $cliente->cliente_estado_conta;
     }
 
     ?>
  <header class="p-3 bg-light fixed-top w-100 mb-4 fundo-2">
      <div class="container ">
          <div class="ms-0 float-start">
-             <a href="" class="navbar-brand">
+             <a href="./" class="navbar-brand">
                  <img src="../prestador/assets/img/brand/blue.png" style="width: 55px !important; transform:scale(1.3)">
              </a>
          </div>

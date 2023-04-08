@@ -93,7 +93,7 @@ if (isset($_SESSION['id-cliente'])) {
                 <div class="col-lg-6 col-md-8">
                     <div class="card bg-secondary shadow border-0">
                         <div class="card-body px-lg-5 py-lg-2">
-                            <form role="form">
+                            <form role="form" enctype="multipart/form-data">
                                 <!-- Firs Line OF Data -->
                                 <br><br><br>
                                 <div class="form-row row">
@@ -161,6 +161,14 @@ if (isset($_SESSION['id-cliente'])) {
                                             <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                                         </div>
                                         <input name="endereco-cliente" class="form-control" placeholder="Bairro, rua, provincia" required type="address">
+                                    </div>
+                                </div>
+
+                                <div class="row my-2">
+                                    <div class="form-group col-12 mb-2">
+                                        <label for="#">Carregue o BI frente e verso [PDF]</label>
+                                        <br>
+                                        <input type="file" name="arquivo-bi" required>
                                     </div>
                                 </div>
 
@@ -240,9 +248,9 @@ if (isset($_SESSION['id-cliente'])) {
                                 `<div class="alert alert-success" role="alert">
                     ${response.msg}
                 </div>`
-                            /* setTimeout(() => {
+                            setTimeout(() => {
                                 location.href = "./profile.php"
-                            }, 1500); */
+                            }, 1500);
                         } else {
                             resposta.innerHTML =
                                 `<div class = "alert alert-danger" role = "alert" >
