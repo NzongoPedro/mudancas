@@ -23,8 +23,8 @@ if (isset($_POST['acao'])) {
             $cliente_senha = filter_input(INPUT_POST, 'senha-cliente');
             $cliente_identificacao = filter_input(INPUT_POST, 'bi-cliente');
             $cliente_localizacao = filter_input(INPUT_POST, 'endereco-cliente');
-
-            print json_encode(cliente::create($cliente_nome, $cliente_telefone, $cliente_whatsapp, $cliente_email, $cliente_senha, $cliente_identificacao, $cliente_localizacao));
+            $cliente_arquivo = $_FILES['arquivo-bi'];
+            print json_encode(cliente::create($cliente_nome, $cliente_telefone, $cliente_whatsapp, $cliente_email, $cliente_senha, $cliente_identificacao, $cliente_localizacao, $cliente_arquivo));
             break;
 
         case 'login-cliente':

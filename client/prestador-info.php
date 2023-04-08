@@ -37,7 +37,7 @@ $servicos = servicos::mostraServico($id_prestador);
     <!-- FIM MENU NAVBAR -->
     <!-- Menu infor -->
     <br><br><br>
-    <div class="container">
+    <div class="container oculto">
         <section class="mt-2">
             <div class="row p-2">
 
@@ -294,6 +294,22 @@ $servicos = servicos::mostraServico($id_prestador);
     <script>
         AOS.init()
         document.querySelector('.btn-contrat').click()
+    </script>
+
+    <script>
+        if (<?= $estado_conta ?> == '0') {
+            document.querySelector('.oculto')
+                .innerHTML =
+                `
+                <div class="card alert-danger alert">
+                <div class="card-body lead">
+                    Seja Bem-Vindo a Plataforma Mudança, que te ajudará a encontrar, contratar ou oferecer serviços de mudanças.
+                <br>  Mas para isso, a sua conta precisa estar activada, aguarda enquanto verificamos a veracidade dos seus dados fornecido no processo de registro.
+                    Receberás um E-mail de feedback. Fique atendo na sua caixa de entrada.
+                    </div>
+                </div>
+       `
+        }
     </script>
 
 </body>

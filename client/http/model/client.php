@@ -6,7 +6,8 @@ use Http\model\Conexao as ligar;
 
 class client
 {
-    /* CREATE ONE CONECTION INSTACE */
+    /* Criando uma instancia  de conexão*/
+
 
     public static function getInstance()
     {
@@ -45,7 +46,7 @@ class client
             $erro = 'O Whastapp ' . $cliente_whatsapp . ' já está cadastrado';
         }
 
-        if (strlen($cliente_senha) <= 8) {
+        if (strlen($cliente_senha) <= 7) {
             $erro = 'A senha deve conter no mínimo 8 catacteres.';
         }
 
@@ -58,12 +59,46 @@ class client
 
     # INSERE CLIENTE NA BASE DE DADOS;
 
-    public static function create($cliente_nome, $cliente_telefone, $cliente_whatsapp, $cliente_email, $cliente_senha, $cliente_identificacao, $cliente_localizacao)
+    public static function create($cliente_nome, $cliente_telefone, $cliente_whatsapp, $cliente_email, $cliente_senha, $cliente_identificacao, $cliente_localizacao, $cliente_arquivo)
     {
+        // bi
+
+        $formatos_permitidos = array('pdf');
+
+        $bi = array(
+            'arquivo'  => $cliente_arquivo['name'],
+            'temporal' => $cliente_arquivo['tmp_name'],
+            'tipo' => strtolower($cliente_arquivo['type']),
+            'formato'  => strtolower(pathinfo($cliente_arquivo['name'], PATHINFO_EXTENSION)),
+            'nome' => uniqid() . '.' . strtolower(pathinfo($cliente_arquivo['name'], PATHINFO_EXTENSION)),
+            'diretorio' => './storage/docs/client/'
+        );
+
+        if (in_array($bi['formato'], $formatos_permitidos)) {
+
+            # ========================= VERIFICA O DIRECTORIO =====================
+            if (is_dir($bi['diretorio'])) {
+
+                # ===================================== TENTA O UPLOAD ==================
+                if (move_uploaded_file($bi['temporal'], $bi['diretorio'] . $bi['nome'])) {
+                    $cliente_arquivo = $bi['nome'];
+                } else {
+                    $erros = 'Falha no upload.';
+                }
+            } else {
+                mkdir($bi['diretorio']);
+                move_uploaded_file($bi['temporal'], $bi['diretorio'] . $bi['nome']);
+                $cliente_arquivo = $bi['nome'];
+            }
+        } else {
+            $cliente_arquivo = "";
+            $erros = 'Formato .' . $bi['formato'] . ' não é permitido';
+        }
+
         $erros = self::validateDate($cliente_nome, $cliente_telefone, $cliente_whatsapp, $cliente_email, $cliente_senha, $cliente_identificacao, $cliente_localizacao);
 
-        $create = self::getInstance()->prepare("INSERT INTO clientes (cliente_nome, cliente_telefone, cliente_whatsapp, cliente_email, cliente_senha, cliente_identificacao, cliente_localizacao)
-        VALUES(?,?,?,?,?,?,?)");
+        $create = self::getInstance()->prepare("INSERT INTO clientes (cliente_nome, cliente_telefone, cliente_whatsapp, cliente_email, cliente_senha, cliente_identificacao, cliente_localizacao, cliente_doc_ident)
+        VALUES(?,?,?,?,?,?,?,?)");
 
         $create->bindValue(1, $cliente_nome);
         $create->bindValue(2, $cliente_telefone);
@@ -72,6 +107,7 @@ class client
         $create->bindValue(5, md5($cliente_senha));
         $create->bindValue(6, $cliente_identificacao);
         $create->bindValue(7, $cliente_localizacao);
+        $create->bindValue(8, $cliente_arquivo);
 
         if (!$erros) {
             if ($create->execute()) {
@@ -84,11 +120,18 @@ class client
         }
     }
 
-    /* PEGAR TODOS OS DADOS */
+    /* PEGAR OS DADOS */
     public static function show($id_cliente)
     {
         $show = self::getInstance()->query("SELECT *FROM clientes WHERE idcliente = '$id_cliente'");
         return $show->fetch();
+    }
+
+    /* PEGAR TODOS OS DADOS */
+    public static function showAll()
+    {
+        $show = self::getInstance()->query("SELECT *FROM clientes");
+        return $show->fetchAll();
     }
 
     /* LOGIN */
