@@ -18,6 +18,12 @@ class clienteController
         return cliente::show($id_cliente);
     }
 
+    # show all
+    public static function showAll()
+    {
+        return cliente::showAll();
+    }
+
     # cliente 
     public static function login($cliente_email, $cliente_senha)
     {

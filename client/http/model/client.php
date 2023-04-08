@@ -120,11 +120,18 @@ class client
         }
     }
 
-    /* PEGAR TODOS OS DADOS */
+    /* PEGAR OS DADOS */
     public static function show($id_cliente)
     {
         $show = self::getInstance()->query("SELECT *FROM clientes WHERE idcliente = '$id_cliente'");
         return $show->fetch();
+    }
+
+    /* PEGAR TODOS OS DADOS */
+    public static function showAll()
+    {
+        $show = self::getInstance()->query("SELECT *FROM clientes");
+        return $show->fetchAll();
     }
 
     /* LOGIN */
